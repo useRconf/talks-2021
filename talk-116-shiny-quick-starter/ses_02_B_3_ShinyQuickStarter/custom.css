@@ -1,0 +1,52 @@
+body {
+  font-family: 'Source Sans Pro';
+}
+
+.background_blue {
+  background-color: #2165B6;
+  color: white;
+}
+
+@font-face {
+  font-family: 'MakDah';
+  src: url('fonts/MakDah/MakDah.eot');
+  src: url('fonts/MakDah/MakDah.eot?#iefix') format('embedded-opentype'),
+       url('fonts/MakDah/MakDah.woff2') format('woff2'),
+       url('fonts/MakDah/MakDah.svg#MakDah') format('svg'),
+       url('fonts/MakDah/MakDah.ttf') format('truetype'),
+       url('fonts/MakDah/MakDah.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+   font-family: 'Source Sans Pro';
+   src: url('fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
+}
+
+.remark-slide-content:not(.exclude){
+  background-image: url(img/logos/r.png);
+  background-position: 92% 9%;
+  background-size: 80px;
+}
+
+.logopos {
+  position: absolute;
+  top: 1%;
+  left: 1%;
+}
+
+
+
+
+.remark-slide-content {
+  font-size: 25px;
+}
+
+li {
+  padding-bottom: 2px;
+}
+
+h1 {
+  margin-bottom: 5px;
+}

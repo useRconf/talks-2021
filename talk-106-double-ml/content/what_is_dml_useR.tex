@@ -1,0 +1,24 @@
+\mode*
+
+
+\begin{frame}
+\frametitle{What is Double Machine Learning (DML)?}
+\begin{itemize}
+\item \textbf{Double/debiased machine learning (DML)} \parencite{Chernozhukov2018}:  General framework for estimation of treatment effects based on machine learning (ML)
+\item The parameter of interest, $\theta_0$, is identified as the solution to a moment condition 
+\begin{align*}
+\mathbb{E}\left[\psi(W;\theta_0, \eta_0 \right)] = 0,
+\end{align*}
+with score function $\psi(\cdot)$, i.i.d. data $W$ and nuisance term $\eta$.
+\item \textbf{Key ingredients} of the DML approach
+\begin{enumerate}
+\item Neyman orthogonality,
+\item High-quality machine learning estimators,
+\item Sample splitting.
+\end{enumerate}
+%
+%\item Combines the strength of \textbf{machine learning} and \textbf{econometrics}
+%\item Our object-oriented implementation \textbf{DoubleML} (in \texttt{R} and \texttt{Python}) provides a general interface for the growing number of models and methods for DML
+%\item The \texttt{R} package is available on \href{https://cran.r-project.org/web/packages/DoubleML/index.html}{\textbf{CRAN}}.
+\end{itemize}
+\end{frame}

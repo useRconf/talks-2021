@@ -1,0 +1,327 @@
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={DoubleML - Double Machine Learning in R},
+  pdfauthor={Presenter},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage[default,light,bold]{sourceserifpro}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathpazo}
+\usepackage{multimedia}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{pgf}
+\usepackage{etoolbox} 
+\usepackage{textpos} 
+
+\usepackage{multirow}
+
+
+\makeatletter \preto{\@verbatim}{\topsep=0pt \partopsep=0pt } \makeatother
+
+
+\setcounter{MaxMatrixCols}{10}
+
+
+\newenvironment{stepenumerate}{\begin{enumerate}[<+->]}{\end{enumerate}}
+\newenvironment{stepitemize}{\begin{itemize}[<+->]}{\end{itemize} }
+\newenvironment{stepenumeratewithalert}{\begin{enumerate}[<+-| alert@+>]}{\end{enumerate}}
+\newenvironment{stepitemizewithalert}{\begin{itemize}[<+-| alert@+>]}{\end{itemize} }
+\newtheorem{assumption}{Assumption}
+\newtheorem{blanktheorem}{}
+\newtheorem{result}{Result}
+\mode<presentation> { \usetheme{boxes} }
+
+\usetheme[block=fill]{metropolis}
+
+
+\newcommand{\X}{\mathbb{X}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mW}{\mathcal{W}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mG}{\mathcal{G}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mU}{\mathcal{U}}
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\mV}{\mathcal{V}}
+\newcommand{\mZ}{\mathcal{Z}}
+\newcommand{\mQ}{\mathcal{Q}}
+
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bEn}{\mathbb{E}_{n}}
+\newcommand{\bG}{\mathbb{G}}
+\newcommand{\indep}{\mathop{\perp\!\!\!\!\perp}}
+
+\newcommand{\Gn}{\mathbb{G}_n}
+\newcommand{\Gnk}{\mathbb{G}_{n_k}}
+\newcommand{\Gna}{\mathbb{G}_{n_a}}
+\newcommand{\Gnb}{\mathbb{G}_{n_b}}
+\newcommand{\Gp}{\mathbf{G}}
+\newcommand{\Pn}{\mathbb{P}_n}
+\newcommand{\Pp}{\mathbf{P}}
+\newcommand{\F}{\mathcal{F}}
+\providecommand{\indx}{\alpha}
+\newcommand{\Ep}{{\mathrm{E}}}
+\newcommand{\barEp}{\bar \Ep}
+\renewcommand{\Pr}{{\mathrm{P}}}
+\newcommand{\Proj}{{\mathcal{P}_{X[\hat I]}}}
+\newcommand{\barf}{\overline{f}}
+\newcommand{\barfp}{\overline{f'}}
+\newcommand{\Uniform}{{\text{Uniform}}}
+\newcommand{\diam}{{\text{diam}}}
+\newcommand{\trace}{{\text{trace}}}
+\newcommand{\ad}{\overset{\mathrm{a}}{\sim}}
+
+
+\renewcommand{\hat}{\widehat}
+\newcommand{\En}{{\mathbb{E}_n}}
+\newcommand{\EnI}{\mathbb{E}_{n,I}}
+
+\renewcommand{\Pr}{{\mathrm{P}}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\semin}[1]{\phi_{{\rm min}}(#1)}
+\newcommand{\semax}[1]{\phi_{{\rm max}}(#1)}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\newcommand{\sign}{ {\rm sign}}
+
+\newcommand{\ci}{\perp\!\!\!\perp}
+
+\DeclareMathOperator{\pr}{pr}
+
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\usepackage{framed}
+
+\definecolor{title}{rgb}{.0,.0,.7}
+\definecolor{proposition}{rgb}{.0,.0,.7}
+\definecolor{title}{rgb}{.0,.0,.7}
+\definecolor{important}{rgb}{0.5,0.,0.}
+
+
+\definecolor{greenie}{rgb}{0.00,0.71,0.35}
+
+\definecolor{UHHred}{RGB}{226, 0, 26}
+\definecolor{UHHblue}{RGB}{0, 156, 209}
+\definecolor{UHHgray}{RGB}{59, 81, 91}
+
+\colorlet{mystructure}{UHHred}
+\usecolortheme[named=mystructure]{structure}
+
+\titlegraphic{\flushright \pdftooltip{\includegraphics[width=2cm]{pictures_and_logos/logo.png}}{The logo of the university of Hamburg. A red rectangle containing the text "UHH" (abbreviation for university of Hamburg) and a castle which is used as a symbol in the coat of arms of the city of Hamburg. To the right of the logo, there is written (in German) "Universität Hamburg, DER FORSCHUNG, DER LEHRE, DER BILDUNG".}} 
+
+\addtobeamertemplate{frametitle}{}{
+\begin{textblock*}{100mm}(.85\textwidth,-0.75cm)
+\includegraphics[width=2cm]{pictures_and_logos/logo.png}
+\end{textblock*}
+\vspace*{-5pt}%
+\par%
+\hspace*{-19pt}%
+\color{UHHgray!90}\rule[0.5\baselineskip]{0.75\paperwidth}{0.8pt}%
+}
+
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+%\setbeamercolor{footline}{fg=UHHgray, bg=white}
+%\setbeamerfont{footline}{size=\fontsize{7}{9}\selectfontbea}
+\setbeamercolor{frametitle}{fg=UHHred, bg=white}
+\setbeamercolor{progress bar}{fg=UHHred, bg=UHHgray}
+\setbeamercolor{date}{fg=UHHgray, bg=white}
+
+\setbeamertemplate{navigation symbols}{}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+
+% additional preamble
+\usepackage[backend=bibtex8,style=authoryear-comp,maxnames=2,minnames=1,maxbibnames=99,doi=false,url=false,eprint=false,isbn=false,firstinits=true]{biblatex}
+\renewcommand{\newunitpunct}{\addcomma\space}
+\renewbibmacro{in:}{}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+\DeclareFieldFormat*{number}{\mkbibparens{#1}}
+%\bibliography{fs_mkbib}
+%\bibliography{MscBib}
+\bibhang1em
+\renewcommand*{\bibfont}{\footnotesize}
+
+\newcommand{\contrItemNormalSize}[3]{
+\begin{columns}
+\hspace*{12pt}
+\begin{column}{0.075\textwidth}
+\includegraphics{pictures_and_logos/#2}
+\end{column}
+\hspace*{-12pt}
+\begin{column}{0.075\textwidth}
+\includegraphics{pictures_and_logos/#3}
+\end{column}
+\hspace*{-12pt}
+\begin{column}{0.7\textwidth}
+{\scriptsize \fullcite{#1}\par}
+\end{column}
+\end{columns}
+}
+
+\newcommand{\contrItemTitle}[3]{
+\begin{columns}
+\hspace*{12pt}
+\begin{column}{0.1\textwidth}
+\includegraphics{pictures_and_logos/#2}
+\end{column}
+\hspace*{-12pt}
+\begin{column}{0.1\textwidth}
+\includegraphics{pictures_and_logos/#3}
+\end{column}
+\hspace*{-12pt}
+\begin{column}{0.7\textwidth}
+{\large  #1 \par}
+\end{column}
+\end{columns}
+}
+
+\newcommand{\pkgDependency}[2]{
+\begin{columns}
+\begin{column}{0.25\textwidth}
+\includegraphics{pictures_and_logos/#1}
+\end{column}
+\hspace*{-1cm}
+\begin{column}{0.65\textwidth}
+{#2}
+\end{column}
+\end{columns}
+}
+
+\preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
+
+\bibliography{content/dml_bibliography.bib}
+
+\usepackage{listings}
+
+% Larger itemize symbols
+\newcommand\centerbox[1]{$\vcenter{\hbox{#1}}$}
+\defbeamertemplate*{itemize item}{custom circle}[1][.45ex]{%
+  \centerbox{\tikz\fill (0,0) circle (#1);}}
+\defbeamertemplate*{itemize subitem}{custom circle}[1][.4ex]{%
+  \centerbox{\tikz\fill (0,0) circle (#1);}}
+\defbeamertemplate*{itemize subsubitem}{custom circle}[1][.3ex]{%
+  \centerbox{\tikz\fill (0,0) circle (#1);}}
+
+\setbeamertemplate{itemize item}[custom circle]
+
+% box around text for code block
+\makeatletter
+\newcommand{\boxedText}[1]{
+\tikz[baseline={([yshift=-1ex]current bounding box.center)}] \node [fill=UHHgray,rectangle, minimum width=1ex,rounded corners,align=left] {\normalcolor #1};}
+\makeatother

@@ -1,0 +1,85 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  10pt,
+  xcolor=dvipsnames
+]{beamer}
+
+\input{content/preamble_useR}
+
+
+
+\usepackage{pdfcomment}
+
+\title{DoubleML - Double Machine Learning in R}
+
+\author{\vspace*{-10pt}
+Philipp Bach, Malte S. Kurz}
+
+\begin{document}
+\begin{frame}
+
+\date{}
+\institute{
+\href{mailto:philipp.bach@uni-hamburg.de}{philipp.bach@uni-hamburg.de} \\
+\href{mailto:malte.simon.kurz@uni-hamburg.de}{malte.simon.kurz@uni-hamburg.de}\\ \\
+\vspace{30pt}
+\pdftooltip{
+\begin{beamercolorbox}[wd=\textwidth,rounded=true,shadow=true]{block body example}
+\contrItemTitle{UseR! 5-9 July, 2021}{DoubleML_Rhino_1000x1000.png}{userlogo.png}
+\end{beamercolorbox}}
+{The logos of the DoubleML package and the logo of the UseR! conference together with the text "UseR! 5-9 July, 2021".}
+}
+\maketitle
+
+\end{frame}
+
+
+\hypertarget{causal_ml}{%
+\section{Introduction to Double Machine Learning}\label{causal_ml}}
+
+\mode<all>
+\input{content/intro_causal_ml_useR}
+
+\mode<all>
+\input{content/motivation_less_formulas_useR}
+
+
+\mode<all>
+\input{content/what_is_dml_useR}
+
+\mode<all>
+\input{content/key_ingredients_short_useR}
+
+
+\begin{frame}[noframenumbering, plain]
+\hypertarget{packages}{%
+\section{The R Package DoubleML}\label{packages}}
+\begin{center}
+\pdftooltip{\includegraphics[width=0.3\textwidth]{pictures_and_logos/DoubleML_Rhino_1000x1000.png}}{The logo of the DoubleML package: A two-headed rhino which is a doubly robust animal.}
+\end{center}
+\end{frame}
+
+\mode<all>
+\input{content/dml_packages_short_useR}
+
+\mode<all>
+\input{content/goodbye_useR}
+
+\begin{frame}
+\frametitle{References}
+\renewcommand*{\bibfont}{\scriptsize}
+\printbibliography
+\end{frame}
+
+\hypertarget{dml_workflow}{%
+\section{Appendix: DoubleML Workflow}\label{dml_workflow}}
+
+\mode<all>
+\input{content/dml_workflow_R}
+
+
+\end{document}

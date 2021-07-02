@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>useR!2021.knit</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Leon Binder" />
+    <meta name="date" content="2021-03-09" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="fonts/fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: center, middle, exclude, background_blue
+
+&lt;div&gt;
+  &lt;div style='font-family:MakDah;font-size:110px'&gt;ShinyQuickStarter&lt;/div&gt;
+  &lt;div style='font-size:50px'&gt;Build Shiny Apps per Drag &amp; Drop&lt;/div&gt;
+  &lt;div style='padding-bottom:20px;font-family:serif'&gt;
+    ________________________________________________________________________
+  &lt;/div&gt;
+  &lt;img src='img/DIT_white.png' style='height:75px;padding-right:40px' alt='Logo of the Deggendorf Institute of Technology'&gt;&lt;img&gt;
+  &lt;img src='img/TCG_white.png' style='height:75px' alt='Logo of the Technology Campus Grafenau'&gt;&lt;img&gt;
+  &lt;div style='padding-top:20px;padding-bottom:20px'&gt;
+  &lt;div style='font-size:25px;padding-bottom:20px'&gt;Leon Binder&lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+# Motivation
+
+RStudio addin that integrates the
+
+&lt;div style="margin-top:-1%"&gt;
+  &lt;img src="img/sqs_3.svg" style="width:55%;margin-left:22%;" alt='The image shows the different aspects that the ShinyQuickStarter integrates. The RStudio addin automates the creation of the app folder structure, allows the creation of the app UI with drag &amp; drop, shows documentation to used app elements, allows the adaption of the app to your specific use case. In the end, the user can export the generated R code for the created Shiny app and start immediately with implementing the actual program logic.'&gt;
+&lt;/div&gt;
+
+--
+
+&lt;div style="margin-top:-15px"&gt;
+  &lt;div&gt;Focus on&lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Usability during the entire app development process&lt;/li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Prototyping, Initial Setup, Extending (&lt;a href="https://shiny.rstudio.com/articles/modules.html"&gt;Modules&lt;/a&gt;)&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;li&gt;User Experience&lt;/li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Beginner friendly design for new developers&lt;/li&gt;
+      &lt;li&gt;Sufficient functionality/complexity for advanced developers&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+---
+
+# Generatable Code
+
+&lt;div style="padding-top:-5%"&gt;
+  &lt;div style="float:left;width:49%;padding-right:1%"&gt;
+    &lt;div&gt;global.R&lt;/div&gt;
+    
+```r
+*library(shiny)
+*library(plotly)
+library(data.table)
+
+# Load data.
+data = fread("data/data.csv")
+
+*# Source functions.
+*function_files = list.files(path = "functions", full.names = TRUE, recursive = TRUE)
+*
+*for (file in function_files) {
+*  source(file, encoding = "UTF-8")
+*}
+*
+*# Source modules.
+*module_files = list.files(path = "modules", full.names = TRUE, recursive = TRUE)
+*
+*for (file in module_files) {
+*  source(file, encoding = "UTF-8")
+*}
+```
+
+  &lt;/div&gt;
+
+--
+
+  &lt;div style="float:left;width:49%;padding-right:1%"&gt;
+    &lt;div&gt;ui.R&lt;/div&gt;
+    
+```r
+*ui &lt;- navbarPage(
+*  title = "useR!2021",
+*  tabPanel(
+*    title = NULL,
+*    icon = icon("home"),
+*    sidebarLayout(
+*      sidebarPanel(
+*        fileInput(
+*          inputId = "upload",
+*          label = "Upload",
+*          accept = c(".csv")
+*        )
+*      ),
+*      mainPanel(
+*        plotlyOutput(
+*          outputId = "data"
+*        )
+*      )
+*    )
+*  )
+*)
+```
+
+  &lt;/div&gt;
+&lt;/div&gt;
+  
+---
+
+# Generatable Code
+
+&lt;div style="padding-top:-5%"&gt;
+  &lt;div style="float:left;width:49%;padding-right:1%"&gt;
+    &lt;div&gt;server.R&lt;/div&gt;
+    
+```r
+*server &lt;- function(input, output, session) {
+*  output$data &lt;- renderPlotly({
+     fig = plot_ly(
+       data = iris, x = ~Sepal.Length, y = ~Petal.Length, color = ~Species,
+       type = "scatter", mode = "markers"
+     ) %&gt;%
+     layout(
+       title = "Sepal Length vs. Petal Length",
+       xaxis = list(title = "Sepal Length"),
+       yaxis = list(title = "Petal Length"),
+       legend = list(orientation = "v", title = list(text = "&lt;b&gt;Species&lt;/b&gt;"))
+     )
+     fig
+*  })
+*}
+```
+
+  &lt;/div&gt;
+
+--
+
+  &lt;div style="float:left;width:49%;padding-right:1%"&gt;
+    &lt;div&gt;module.R&lt;/div&gt;
+    
+```r
+*data_ui &lt;- function(id) {
+*  ns = NS(id)
+*
+*  tagList(
+*    wellPanel(
+*      dataTableOutput(
+*         outputId = ns("data")
+*      )
+*    )
+*  )
+*}
+*
+*data_server &lt;- function(id) {
+*  moduleServer(id, function(input, output, session) {
+*    output$data &lt;- renderDataTable({
+       iris
+*    }, options = list(searching = FALSE, lengthChange = FALSE, pageLength = 5))
+*  })
+*}
+```
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+---
+
+class: center, middle, exclude, background_blue
+
+&lt;div&gt;
+  &lt;div style='font-family:MakDah;font-size:150px'&gt;Demonstration&lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+# Get Started
+
+Install the **ShinyQuickStarter** package from [CRAN](https://cran.r-project.org/web/packages/ShinyQuickStarter/index.html):
+
+
+```r
+install.packages("ShinyQuickStarter")
+```
+
+Launch the addin through the terminal
+
+
+```r
+ShinyQuickStarter::shinyQuickStarter()
+```
+
+or through RStudio
+
+&lt;img src='img/start_addin_over_rstudio.png' style='width:90%' alt='ShinyQuickStarter can be also started by clicking the "Addins" dropdown menu in RStudio and then selecting the ShinyQuickStarter from the list.'&gt;
+
+---
+
+# Further development
+
+--
+- Extension by **shinydashboardPlus**
+
+--
+- Export/Import of current state
+
+--
+- Allowing movement of UI Elements
+
+--
+- Enabling connections between Inputs and Outputs
+
+--
+- Adding arguments/return for Modules
+
+---
+
+# Contact
+
+&lt;div style="padding-bottom:50px"&gt;&lt;/div&gt;
+
+Leon Binder  
+Research Team „Business Data Analytics &amp; Optimization“  
+  
+THD – Deggendorf Institute of Technology  
+Technology Campus Grafenau  
+Hauptstraße 3  
+DE-94481 Grafenau  
+E-Mail: leon.binder@th-deg.de  
+Web: &lt;a href='https://www.th-deg.de/tc-grafenau-en'&gt;https://www.th-deg.de/tc-grafenau-en&lt;/a&gt;
+
+---
+
+class: center, middle, exclude background_blue
+
+&lt;div style='display:inline-flex'&gt;
+  &lt;div style='font-family:MakDah;font-size:110px'&gt;Thanks!&lt;/div&gt;
+  &lt;div&gt;
+    &lt;img src='img\marmot.png' alt='Logo of the useR!2021 mascot. It's Margot, the Marmot!'&gt;
+    &lt;figcaption style="font-size:small"&gt;© Francisco Etchart&lt;/figcaption&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
