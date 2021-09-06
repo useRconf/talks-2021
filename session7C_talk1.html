@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>autoharp</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Vik Gopal" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/useR.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/useR-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# autoharp
+### Vik Gopal
+
+---
+
+
+# Example Worksheet
+
+.left-column[
+&lt;img src="user2021-autoharp_files/figure-html/unnamed-chunk-1-1.png" title="2-panel figure shows pdf and cdf of random variable" alt="2-panel figure shows pdf and cdf of random variable" width="110%" /&gt;
+
+]
+
+.right-column[
+## Question
+Write a function that simulates from the pdf
+$$ f(x) = 4x^3 I(0 &lt; x &lt; 1) $$
+
+Run the function to generate `\(10^4\)` random variates.
+
+
+## Requirements
+
+- A function named `rf( )`, with two arguments.
+- A vector named `X` of length `1e4`.
+]
+
+---
+
+class: middle
+
+.pull-left[
+## Problems We Faced
+
+Students' code failed to run on our machines because of:
+
+- logical errors,
+- packages they used,
+- objects wrongly named, or
+- incorrect path settings.
+
+]
+
+--
+
+.pull-right[
+## Our Goals
+
+We wanted a flexible framework to assess:
+
+- correctness of output objects,
+- run-time efficiency, and
+- R coding expertise.
+
+]
+
+---
+class: middle
+
+
+&lt;img src="instructor_overview.png" title="Desired workflow" alt="Desired workflow" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Testing Correctness Output
+
+&lt;img src="framework1-1a.png" title="Solution template is run to generate correct versions of objects and create a test script." alt="Solution template is run to generate correct versions of objects and create a test script." width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Testing Correctness Output
+
+&lt;img src="framework1-1b.png" title="Student script is run to generate student versions of objects." alt="Student script is run to generate student versions of objects." width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Testing Correctness Output
+
+&lt;img src="framework1-1c.png" title="Correct objects are copied to student environment" alt="Correct objects are copied to student environment" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Testing Correctness Output
+
+&lt;img src="framework1-1d.png" title="Test code is executed in student environment, thus checking student-created objects." alt="Test code is executed in student environment, thus checking student-created objects." width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+# Run-time Statistics
+
+&lt;img src="tut1_runtime.png" title="Histograms of memory usage and run-time for a batch of worksheets" alt="Histograms of memory usage and run-time for a batch of worksheets" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Static Code Analysis    
+
+.pull-left[
+&lt;img src="user2021-autoharp_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+
+```r
+rf &lt;- function (n) {
+  
+  x &lt;- c ()
+  
+  for (i in 1:n) {
+    
+    x [i] &lt;- (runif(1)/4)^(1/3)
+    
+  }
+  
+  return (x)
+  
+}
+```
+
+* `igraph` does the plotting.
+]
+
+
+---
+# Static Code Analysis    
+
+.pull-left[
+&lt;img src="user2021-autoharp_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+
+```r
+rf &lt;- function (n) {
+  
+* x &lt;- c ()
+  
+* for (i in 1:n) {
+    
+*   x [i] &lt;- (runif(1)/4)^(1/3)
+    
+  }
+  
+  return (x)
+  
+}
+```
+
+* This code has room for improvement.
+]
+
+---
+
+# Static Code Analysis    
+
+.pull-left[
+
+&lt;img src="user2021-autoharp_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; call_status &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; formal_arg &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; depth &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt;- &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; rf &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; function &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; n &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; { &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt;- &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+
+* An R expression is stored as an S4 object.
+* The `TreeHarp` object contains node type information.
+* Tokenising allows for Natural Language techniques to be applied.
+]
+
+
+---
+
+# Additional Functions
+
+1. It's easy for students to make mistakes such as:
+  * slightly different names for objects.
+  * incorrect path settings.
+
+1. `autoharp` provides a [shiny app](https://blog.nus.edu.sg/stavg/files/2021/06/soln_checker_v2.mp4) for students to run their code before submission.
+
+2. The `autoharp` was developed for a class on visualisation in R, so 
+it contains a function to [generate thumbnails](https://blog.nus.edu.sg/stavg/files/2021/06/thumbnails_v2.mp4) of all the plots created.
+
+---
+
+# Desired Functionality
+
+- Detecting areas for improvement in student scripts, e.g. 
+  - duplicated chunks of code within a script.
+  - highlighting where piping, or an apply call could be used instead.
+  
+
+```r
+x &lt;- f1(w)
+y &lt;- f2 (x)
+z &lt;- f3(y)
+```
+
+- Diffs/Visualisations between data frames.
+
+---
+
+class: center, middle
+
+### Is the `autoharp` the right package for me?
+
+---
+
+# Alternatives
+
+1. The package helps in the way I create worksheet problems, and grade them.
+  * Students submit an entire script, which I run on my end.
+
+1. There are alternative packages out there, e.g.:
+  * `markmyassignment`
+  * `homework`
+  * `learnr`, together with `grade_this`.
+  
+---
+  
+# Documentation &amp; Contact Information
+
+1. User manuals (and this deck of slides) can be found at 
+https://singator.github.io/autoharp-docs/
+
+2. The `autoharp` ships with a couple of examples of solution templates and 
+student scripts that you can try out.
+
+```r
+list.files(system.file("examples", package="autoharp"))
+```
+
+```
+## [1] "question_sheets" "soln_templates"  "student_scripts"
+```
+
+
+2. Feel free to get in touch at **vik.gopal at nus.edu.sg** if you need to.
+
+
+--
+&lt;br&gt;
+
+## Thank you for listening, stay safe and healthy!
+
+---
+
+class: center, middle
+
+### P.S.: if you are wondering about the name...
+
+
+It's the title of a song by Belgian band known as [Hooverphonic](https://www.hooverphonic.com/). I used to listen 
+to them a lot (Thanks Claudio!).
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"slideNumberFormat": "%current%",
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
