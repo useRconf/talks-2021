@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>All-in-one smartphone-based system for quantitative analysis of point-of-care diagnostics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Weronika Schary and Filip Paskali" />
+    <meta name="date" content="2021-07-05" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/useR.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/useR-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# All-in-one smartphone-based system for quantitative analysis of point-of-care diagnostics
+### Weronika Schary and Filip Paskali
+### Institute of Precision Medicine, HFU
+### 2021-07-05
+
+---
+
+
+### Cooperation of Research Groups
+
+--
+
+![](https://institute-precision-medicine.org/wp-content/uploads/2018/11/IPM_LOGO_HFU.jpg)
+
+#### Data Science for Life Science, Institute of Precision Medicine, HFU
+Prof. Matthias Kohl, Weronika Schary, Filip Paskali
+
+`\(\rightarrow\)` Data Science, Bioinformatics
+
+--
+
+#### Deigner Lab, Institute of Precision Medicine, HFU
+Prof. Hans-Peter Deigner, Simone Rentschler, Christoph Ruppert 
+
+`\(\rightarrow\)` Development of Point-of-Care (POC) Diagnostics, Experiments
+
+---
+
+### Cooperation of Research Groups
+
+--
+
+![](https://raw.githubusercontent.com/scharywe/misc/main/meduni.jpg)
+
+#### Institute of Hygiene, Microbiology and Environmental Medicine, Medical University Graz
+Prof. Ivo Steinmetz, Dr. Gabriel Wagner-Lichtenegger
+
+`\(\rightarrow\)` Development of Point-of-Care (POC) Diagnostics, Experiments
+
+---
+
+### POC Diagnostics
+--
+
+- POC tests are performed at the site of patient care, e.g. bedside, and offer straightforward results
+
+--
+
+- in particular lateral flow assays (LFA) are a great opportunity for rapid, low-cost, accessible diagnosis
+
+--
+
+- LFAs contain a carrier material with dry reagents activated by a liquid sample; this simple test setup  creates the bands
+
+--
+
+.pull-left[
+![](https://storage.googleapis.com/plos-corpus-prod/10.1371/journal.pntd.0008452/2/pntd.0008452.g001.PNG_I?X-Goog-Algorithm=GOOG4-RSA-SHA256&amp;X-Goog-Credential=wombat-sa%40plos-prod.iam.gserviceaccount.com%2F20210623%2Fauto%2Fstorage%2Fgoog4_request&amp;X-Goog-Date=20210623T114242Z&amp;X-Goog-Expires=86400&amp;X-Goog-SignedHeaders=host&amp;X-Goog-Signature=25c967e4914709e8d728e805f736f24bdef940b8d25625be20ac1032ce2d17b9df7a13ed899523c90c852faf78965228f57547c234b769f05c81ae3f72e7fe2a22e9d18a37fd3159149569f861d6399ab29db35d005a4aea5fb520a845b4f4dd93ec782b8ed5379272f5372cb2d9394a0dcdb1bca9d226a87983fe90603515ab3d7f5bb513005fc8dc4325a46913c56f75fdc3b848cb210cbeee48080d4ac8c5e6ca44a3325f21c47ab860b03bfa747245a4325b576a22fed23b1cf352842aee465a7ac89b23e665187326672ad6dcccbaf6eb00ec1e4cd1d87ab9dde8f2e122b3abb95357b3a652e25deb62d8f45b2d67c8eb57f3e2322f1cfe81d10db5f99c)
+
+.footnote[
+Melioidosis DS rapid test
+
+see Wagner et al. 2020 [1](https://github.com/yihui/xaringan/issues/2)]
+]
+
+.pull-right[
+![](https://upload.wikimedia.org/wikipedia/commons/1/1f/Pregnancy_test_result.jpg)
+
+.footnote[
+Pregnancy Test [2](htthttps://upload.wikimedia.org/wikipedia/commons/1/1f/Pregnancy_test_result.jpg)
+]
+]
+
+---
+
+### Smartphone-Reader for POC Analysis
+
+--
+
+- 3D-printed photo box for standardized positioning and lighting
+
+--
+
+- smartphone for image acquisition
+
+--
+
+- R Shiny App with modular, customizable workflow for image editing, analysis, data extraction, calibration and quantification
+
+--
+
+.center[
+![image](https://raw.githubusercontent.com/scharywe/misc/main/toc2.png)
+]
+---
+
+### LFA Shiny Application
+
+- LFA App core `\(-\)` image editing, thresholding, intensity extraction
+- LFA App calibration `\(-\)` core + calibration
+- LFA App quantification `\(-\)` core + quantification
+- LFA App analysis `\(-\)` core + calibration + quantification
+
+--
+
+.center[[See demo](https://www.youtube.com/watch?v=BNL1W5slZnY) --- [Try the app](https://lfapp.shinyapps.io/LFAnalysis/) --- [Code on GitHub](https://github.com/fpaskali/LFApp)]
+.center[![image](https://raw.githubusercontent.com/fpaskali/LFApp/main/vignettes/mobileDesktop.png)]
+
+---
+
+### Outlook and further Projects
+
+- Optimization and further improvements based on feedback
+
+
+- Apps for Spot Detection for Array Formats
+
+.center[
+![image](https://raw.githubusercontent.com/scharywe/misc/main/01.jpg)
+]
+---
+### Outlook and further Projects
+
+- Automatic Spot or Band Recognition via Machine Learning
+  
+  
+- Use for other applications with spots or band, e.g. Gelelectrophoresis images
+
+
+
+Support was provided by Bundesministerium für Bildung und Forschung (FlowArray project 13FH121PX8, MultiFlow project 03FH046PX4).
+
+---
+
+### R Packages &amp; other Ressources .pull-left[
+- [**shiny**](https://cran.r-project.org/package=shiny)
+- [**shinyMobile**](https://cran.r-project.org/package=shinyMobile)
+- [**shinyjs**](https://cran.r-project.org/package=shinyjs)
+- [**shinythemes**](https://cran.r-project.org/package=shinythemes)
+- [**EBImage**](https://bioconductor.org/packages/release/bioc/html/EBImage.html)
+- [**rmarkdown**](https://cran.r-project.org/package=rmarkdown)
+- [**DT**](https://cran.r-project.org/package=DT)
+- [**ggplot2**](https://cran.r-project.org/package=ggplot2)
+- [**fs**](https://cran.r-project.org/package=fs)
+- [**mgcv**](https://cran.r-project.org/package=mgcv)]
+
+.pull-right[
+- [**Mahmoud et al. 2020**](https://doi.org/10.1016/j.snb.2020.129246)
+
+- [**Ruppert et al. 2020**](https://doi.org/10.1186/s12951-020-00688-1)
+
+- [**Ruppert et al. 2019**](https://doi.org/10.1007/s00604-018-3195-6)
+
+- [**Wagner et al. 2020**](https://doi.org/10.1371/journal.pntd.0008452)]
+
+---
+
+class: center, middle
+
+# Thank you!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

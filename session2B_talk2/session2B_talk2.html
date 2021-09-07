@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Reactor</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jonathan Sidi" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="resources/css/xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="resources/css/colours.css" type="text/css" />
+    <link rel="stylesheet" href="resources/css/title.css" type="text/css" />
+    <link rel="stylesheet" href="resources/css/overflow.css" type="text/css" />
+    <link rel="stylesheet" href="resources/css/lightbox.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Reactor
+## Unit Testing Shiny App Reactivity
+### Jonathan Sidi
+### useR!2021 <br/><br/><a href="https://bit.ly/36fTYFs" class="uri">https://bit.ly/36fTYFs</a>
+
+---
+
+
+
+
+
+
+
+
+# Motivation
+
+.pull-left[
+The ability to **diagnose** and **resolve** cascading reactivity in Shiny applications is an integral part of good application development preventing a waste of resources and negative user experiences.
+
+__Cascading Reactivity__: Elements in a shiny app trigger each other in a manner the developer did not intend.
+]
+
+.pull-right[
+![](https://media.giphy.com/media/xUPGcvrXl7RBEp3zC8/giphy-downsized.gif)
+]
+
+
+---
+
+# Unit Testing
+
+  - Unit testing creates a framework that improves collaboration across multiple developers, enables coverage tracking across varying scenarios and promotes a safer production environment. 
+
+  - This is commonly used in R package development to validate source code. 
+  
+  - In Shiny applications the ability to __diagnose and resolve reactivity problems through unit testing is lacking__.
+
+---
+# Solution ![:scale_right 15%](https://github.com/yonicd/hex/raw/master/images/logos/reactor.png)
+
+- The __{reactor}__ package solves this issue by creating a new framework that adds reactivity expectations to unit testing in R.
+
+- With __{reactor}__ defensive development can by applied to Shiny applications to both plan and preserve reactivity with multiple developers working on the application in a production environment.
+
+## Where it's at
+
+GitHub: https://github.com/yonicd/reactor
+
+
+```r
+remotes::install_github('yonicd/reactor')
+```
+
+---
+### How does {reactor} fit in with other packages?
+
+Currently there are not a lot of packages that deal with unit testing and specifically testing reactivity in Shiny applications.
+
+.pull-left[
+__{shinyjster}__
+
+JavaScript testing on Shiny applications
+
+__{shinytest}__ 
+
+Checks Inputs and UI behavior.
+- Integrates with __{testthat}__
+- Integrates with Continuous Integration
+]
+
+.pull-right[
+__{shiny}::testServer__
+
+Built-in testing script for __{shiny}__ that works with shiny modules to create testing environment to verify reactive outputs are as expected.
+]
+
+&lt;message-blockquote&gt;These packages work well for testing that reactivity has occurred and that the output is as expected, but they do not test if the reactivity is creating problems with the app integrity and the second order effects such as repetitive or cascading reactivity.&lt;/message-blockquote&gt;
+
+---
+
+# Reactor Object
+
+Reactor is a pipeline driven workflow. To begin we create a reactor class object
+
+```r
+library(reactor)
+```
+
+```r
+obj &lt;- init_reactor()
+obj
+#&gt; reactor:
+#&gt;   application: ~
+#&gt;   driver: ~
+```
+
+You can see it is expecting to be populated by two objects 
+
+  - __application__: Specifications for the background process that will host the application
+  - __driver__: Specifications for the webdriver that will interact with the application in the background process
+  
+---
+# Application
+
+Reactor can host either a 
+
+#### Standard Shiny App
+
+```r
+obj &lt;- obj%&gt;%
+     set_runapp_args(
+         appDir = 'PATH_TO_APP/app.R'
+     )
+# Adding runApp Settings
+```
+
+#### Golem App
+
+```r
+obj &lt;- obj%&gt;%
+  set_golem_args(package_name = 'mypackage')
+# Adding runApp Settings
+```
+
+---
+## Application &lt;a class="reactor-link" data-lightbox="reactor" data-title="Reactor Workflow" href="media/reactor_01_a.svg"&gt; &lt;img src="media/reactor_01_a.svg" style="width:50%;float:right"&gt;&lt;/a&gt;
+
+What's going on under the hood?
+
+Reactor is setting up the necessary definitions for serving a Shiny application calls via __{processx}__.
+
+```yml
+reactor:
+  application:
+    runApp:
+      test_port: 27612
+      test_path: /var/folders/kx/t4h_mm1910sb7vhm_gnfnx2c0000gn/T//RtmpW8xetO
+      test_ip: 127.0.0.1
+      test_trace: no
+      appDir: PATH_TO_APP/app.R
+  driver: ~
+```
+
+---
+### Driver &lt;a class="reactor-link" data-lightbox="reactor" data-title="Reactor Workflow" href="media/reactor_02_c.svg"&gt; &lt;img src="media/reactor_02_c.svg" style="width:25%;float:right"&gt;&lt;/a&gt;
+
+Next we will choose which `Web Driver` we want to use:
+
+__Chrome__
+
+```r
+obj &lt;- obj %&gt;% set_chrome_driver()
+# Adding chrome Settings
+```
+
+__Firefox__
+
+```r
+obj &lt;- obj %&gt;% set_firefox_driver()
+# Replacing chrome with firefox Settings
+```
+
+__Turn Headless Mode Off__
+
+```r
+obj &lt;- obj %&gt;%
+  set_firefox_driver(
+    opts = firefox_options(headless = TRUE)
+  )
+# Updating firefox Settings
+```
+
+---
+### Starting Reactor
+
+Once we have specifications in place we can start reactor using `start_reactor()`. 
+
+```r
+obj %&gt;% start_reactor()
+```
+.pull-left[
+Now we have two active child processes at the same time and the webdriver can manipulate the running shiny app!
+
+We use __{RSelenium}__ commands and built in __{reactor}__ functions that simplify asynchronous pipelines.
+]
+
+.pull-right[
+![](https://media.giphy.com/media/xUA7aTTTOEYbozXg2I/giphy-downsized.gif)
+]
+
+&lt;details&gt;&lt;summary&gt;Side Note&lt;/summary&gt;
+&lt;ok-blockquote&gt;
+{reactor} works with {crrri} or {crrry} much the same way it works with {RSelenium}. More info in the package GitHub repository.
+&lt;/ok-blockquote&gt;
+&lt;/details&gt;
+&lt;br&gt;
+
+---
+
+## Interacting with the Application
+
+Reactor comes with prebuilt common actions that lower the threshold to interact with the application
+
+.panelset[
+.panel[.panel-name[Injecting]
+- Inputs
+  - `set_id_value()`: Sets a value for a shiny input object by id
+- JavaScript
+  - `execute()`: Executes a JavaScript call
+]
+.panel[.panel-name[Querying]
+- Inputs 
+  - `query_input_names()`: Returns names of the shiny input ids
+  - `query_input_id()`: Returns current values of a shiny input by id
+- Outputs
+  - `query_output_names()`: Returns names of the shiny output ids
+  - `query_output_id()`: Returns current values of a shiny output by id
+- JavaScript
+  - `query()`: Returns a value from JavaScript call
+]
+]
+
+---
+## Closing Reactor
+
+Closing reactor is simple
+
+.pull-left[
+
+```r
+obj %&gt;% 
+  kill_app()
+```
+
+This will 
+- Close both child processes that reactor is using
+- Clean up the temporary directory from side-effects.
+
+]
+.pull-right[
+![](https://media.giphy.com/media/l3q2wMdhTXm84vbaw/giphy-downsized.gif)
+]
+
+---
+
+# Shiny App
+
+The rest of the slides explain how __{reactor}__ workflow is used through a simple Shiny app. 
+
+The app will have two UI elements:
+
+  - A numeric input (`input$n`) that the user can change.
+  - A plot output showing the `histogram(runif(input$n))` which observes changes to `input$n`
+
+On the server side we will add a new element for logging reactivity using __{whereami}__.
+
+---
+
+```r
+# Global Variables
+n &lt;- 200
+# Define the UI
+ui &lt;- shiny::bootstrapPage(
+  shiny::uiOutput('n'),
+  shiny::plotOutput('plot')
+)
+# Define the server code
+server &lt;- function(input, output) {
+  output$n &lt;- renderUI({
+    shiny::numericInput('n', 'Number of obs', n)
+  })
+  
+  output$plot &lt;- shiny::renderPlot({
+*   whereami::whereami(tag = 'hist')
+    graphics::hist(stats::runif(input$n))
+  })
+}
+# Return a Shiny app object
+shiny::shinyApp(ui = ui, server = server)
+```
+
+--
+
+&lt;warn-blockquote&gt; What does `whereami::whereami(tag = 'hist')` do? &lt;/warn-blockquote&gt;
+
+
+---
+
+# whereami ![:scale_right 15%](https://github.com/yonicd/hex/raw/master/images/logos/whereami.png)
+__{whereami}__ is a package that logs the locations where command in an R session were invoked and their source location.
+
+Using __{whereami}__ with shiny is simple. 
+
+In the app file place __cat_where(whereami(tag = 'hist'))__ on the server side.
+
+Every time the rendering application hits the line it will print to console indicating which line has been hit accompanied by a counter.
+
+```r
+── Running renderPlot(...) at shiny.R#15 (1) ─────────────────
+── Running renderPlot(...) at shiny.R#15 (2) ─────────────────
+```
+
+Using the __tag__ argument will log the counter to a specific internal label and allow multiple concurrent counters.
+
+---
+## Shiny whereami example
+.center[![:scale 85%](https://github.com/yonicd/whereami/blob/media/whereami_shiny.gif?raw=true)]
+
+&lt;message-blockquote&gt; Save the code to file to run the example &lt;/message-blockquote&gt;
+---
+
+# Constructing Pipelines
+
+Because each function is returning the reactor object it is simple to create reactor pipelines.
+
+Reactor will wait for shiny to finish each action before proceeding to the next one.
+
+```r
+init_reactor() %&gt;%
+  set_runapp_args(
+    appDir = system.file('examples/good_app.R',package = 'reactor')
+  ) %&gt;%
+  set_chrome_driver() %&gt;%
+  start_reactor() %&gt;%
+  set_id_value('n',500) %&gt;%
+  set_id_value('n',300) %&gt;%
+  kill_app()
+```
+
+---
+
+# Testing Expectations &lt;a class="reactor-link" data-lightbox="reactor" data-title="Reactor Workflow" href="media/reactor_03_b.svg"&gt; &lt;img src="media/reactor_03_b.svg" style="width:25%;float:right"&gt;&lt;/a&gt;
+
+Testing expectations is done as a natural extension of the pipeline. 
+
+.panelset[
+.panel[.panel-name[Reactivity]
+
+
+```r
+init_reactor() %&gt;%
+  set_runapp_args(
+    appDir = system.file('examples/good_app.R',package = 'reactor')
+  ) %&gt;%
+  set_chrome_driver() %&gt;%
+  start_reactor() %&gt;%
+  set_id_value('n',500) %&gt;%
+* expect_reactivity('hist',1) %&gt;%
+  set_id_value('n',200) %&gt;%
+* expect_reactivity('hist',2) %&gt;%
+  kill_app()
+```
+]
+.panel[.panel-name[Busy Time]
+
+Test expectations for how long shiny is busy for a single interaction event or the cumulative busy time. 
+
+
+```r
+init_reactor() %&gt;%
+  set_runapp_args(
+    appDir = system.file('examples/good_app.R',package = 'reactor')
+  ) %&gt;%
+  set_chrome_driver() %&gt;%
+  start_reactor() %&gt;%
+  set_id_value('n',500) %&gt;%
+* expect_busy_time(0.1) %&gt;%
+  expect_reactivity('hist',1) %&gt;%
+  kill_app()
+```
+
+]
+]
+
+---
+
+### Fixing our App
+&lt;warn-blockquote&gt; __Bad App__ `renderPlot` is triggered twice when the app is initially invalidated, as elements are generated in the app. &lt;/warn-blockquote&gt;
+
+```r
+output$plot &lt;- shiny::renderPlot({
+  whereami::whereami(tag = 'hist')
+  hist(stats::runif(input$n))
+})
+```
+
+&lt;ok-blockquote&gt; __Good App__ `req` is in the `renderPlot` which is triggered only when `input$n` exists and is invalidated. &lt;/ok-blockquote&gt;
+
+
+```r
+output$plot &lt;- shiny::renderPlot({
+* shiny::req(input$n)
+  whereami::whereami(tag = 'hist')
+  hist(stats::runif(input$n))
+})
+```
+
+---
+
+# Testthat Integration
+
+```r
+testthat::context("testing reactivity with reactor")
+
+obj &lt;- init_reactor() %&gt;%
+  set_firefox_driver() %&gt;%
+  set_runapp_args( appDir = system.file( 'examples/good_app.R', package = 'reactor') )
+
+testthat::describe('good reactive',{
+
+  it('reactive hits in plot reactive chunk',{
+    obj %&gt;%
+      start_reactor() %&gt;%
+      set_id_value('n',500) %&gt;%
+      expect_reactivity(tag = 'hist',count =  2) %&gt;%
+      kill_app()
+  })
+  
+  it('another expectation',{
+    obj %&gt;%
+      start_reactor() %&gt;%
+      ... %&gt;%
+      kill_app()
+  })
+  
+})
+```
+
+---
+
+# Directory Structure
+
+  - The testing file for __{reactor}__ is set up exactly the same as a __{testthat}__ file, except that instead of using the naming convention `test-*.R` you can use `reactor-*.R`. 
+
+```r
+tests
+├── testthat
+│   ├── reactor-reactivity.R # Reactive Tests
+│   └── test-loads.R # Package tests
+└── testthat.R
+```
+
+  - This serves the purpose of making it simpler to isolate reactivity tests from the other tests that may be in a package.
+  - Will not interact with `covr`
+  - Reactivity tests can be called directly by using `reactor::test_app()`
+
+---
+
+# Unit Testing Reactivity ![:scale_right 25%](https://media.giphy.com/media/l3UcA1HpL5kLuiWOc/giphy.gif)
+
+.center[&lt;a class="reactor05-link" data-lightbox="reactor05" data-title="Testthat Console" href="https://github.com/yonicd/reactor/raw/media/example_api.gif"&gt; &lt;img src="https://github.com/yonicd/reactor/raw/media/example_api.gif" style="width:60%"&gt;&lt;/a&gt;]
+
+---
+
+# Continuous Integration
+
+.pull-left[
+
+{reactor} can also be utilized with version control and continuous integration to improve the stability of shiny app development with many collaborators. 
+
+An example workflow for github actions which comes with `googledriver` and `geckodriver` pre-installed can be found [here](https://github.com/yonicd/reactor/blob/master/.github/workflows/R-reactor.yml).
+]
+.pull-right[
+ &lt;a class="reactor06-link" data-lightbox="reactor06" data-title="Continuous Integration" href="media/gha_2.png"&gt; &lt;img src="media/gha_2.png"&gt;&lt;/a&gt;
+]
+
+---
+
+
+# Go forth and test your apps!
+
+.pull-left[
+What __{reactor}__ gives you:
+
+- Simplifies diagnosing reactivity issues in Shiny
+- Creates framework to store and reproduce testing of Shiny Apps
+- Can be applied in Continuous Integration environments
+- Creates safer Shiny app development practices for teams to collaborate.
+]
+
+.pull-right[
+&lt;br/&gt;
+&lt;br/&gt;
+![](https://media.giphy.com/media/26gs78HRO8sOuhTkQ/giphy-downsized.gif)
+]
+&lt;br/&gt;
+### .center[Thank you :)]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="resources/js/macros.js"></script>
+<script src="resources/js/lightbox-plus-jquery.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R in Regulated Industries: Assessing Risk with {riskmetric}</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Doug Kelkhoff, on behalf of the R Validation Hub" />
+    <meta name="author" content="Yilong Zhang, Marly Cormar, Eli Miller, Eric Milliman, Mark Padgham, Juliane Manitz" />
+    <script src="riskmetric_files/header-attrs-2.8/header-attrs.js"></script>
+    <link href="riskmetric_files/remark-css-0.0.1/useR.css" rel="stylesheet" />
+    <link href="riskmetric_files/remark-css-0.0.1/useR-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="riskmetric.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# <p>R in Regulated Industries: Assessing Risk with {riskmetric}</p>
+### Doug Kelkhoff, on behalf of the R Validation Hub
+### Yilong Zhang, Marly Cormar, Eli Miller, Eric Milliman, Mark Padgham, Juliane Manitz
+
+---
+
+
+
+
+# Overview
+
+1. Quick intro of unique challenges of using R in regulated industries
+1. A brief overview of {riskmetric}'s design goals
+1. A dive into {riskmetric} internals:
+   building a foundation for an extendable package metadata collection platform
+
+---
+
+# R in Regulated Industries
+
+- Long histories with licensed, proprietary tools (especially in statistical analysis)
+- R is a forerunner language for new methods &amp; as a glue language for data
+  science
+- Many organizations in regulated industries are looking for ways to leverage
+  this awesome resource
+- But first we need to ensure reproducibility of analytic software including:
+  - proof of reliability of packages and implementations
+  - robust, reproducible installation 
+  - documenting measures of risk used to justify the use of the software
+
+---
+
+# The R Validation Hub
+
+- Building tools, processes and recommendations for the use of R in regulated
+  industries
+- Predominantly focused on the Pharmaceutical industry, with representation in
+  Finance and Agriculture
+  - About 60 companies/groups on our mailing list
+  - And about 10 actively contributing
+- Aims to patch these gaps using openly developed tools such as {riskmetric}
+
+&gt; For more details, please check out [pharmaR.org](www.pharmaR.org)
+
+---
+
+# {riskmetric}
+
+Aims to provide tooling to assess a R packages and make informed, reproducible
+decisions about the choice of software for regulated decision making.
+([github.com/pharmaR/riskmetric](www.github.com/pharmaR/riskmetric))
+
+### Some use cases
+
+- A statistician wants to know if a package is used broadly enough to justify
+  using it for exploration (measuring community trust, adoption)
+- An analyst wants to know that they can easily share work with a reviewer
+  (measuring development stability)
+- An R system administrator wants to ensure that installing a package won't
+  break a managed environment (measuring reliability, robustness)
+- Quality assurance wants to know that a package isn't malicious (measuring
+  security)
+
+---
+
+# {riskmetric}
+
+Aims to provide tooling to assess a R packages and make informed, reproducible
+decisions about the choice of software for regulated decision making.
+([github.com/pharmaR/riskmetric](www.github.com/pharmaR/riskmetric))
+
+### Unique challenges
+
+- Lots of users with unique needs, with varying levels of sensitivity 
+- Aim to assess a package a different parts of its lifecycle
+  - pre-install
+  - installation into an environment
+  - long-term stability/reproducibility
+
+---
+
+# {riskmetric}
+
+Aims to provide tooling to assess a R packages and make informed, reproducible
+decisions about the choice of software for regulated decision making.
+([github.com/pharmaR/riskmetric](www.github.com/pharmaR/riskmetric))
+
+### Our design objectives
+
+- Accommodate multiple sources of package metadata
+  - Pulling data from web is fine for some, others want to recompute locally
+- While collecting package metadata, avoid having to manage information dependencies
+  - eg Need to parse `DESCRIPTION` to get `URL` field and query for open repo issues
+  - However, many assessments may need a parsed `DESCRIPTION`
+- Minimize re-calculation of common data
+  - Critical for _computationally intensive_ metrics (like `R CMD check`) or
+    _rate-limited_ API queries
+- Want to encourage contribution &amp; extension with low bar to entry
+
+---
+
+# {riskmetric} Data Flow
+
+![Core Workflow: pkg_ref objects transformed using assess function into 
+pkg metrics, which are then scored resulting in a numeric summary score)](assets/core-workflow.svg)
+
+---
+
+# {riskmetric} `pkg_ref`
+
+.pull-left[
+- Core class of `{riskmetric}`
+- S3 subclass hierarchy or "remote" ("cran", "bioconductor", "github", etc),
+  "install" or "source" package references
+- A wrapper around an `environment` with indexing methods to handle lazy
+  evaluation of fields
+]
+
+.pull-right[
+
+```r
+pkg_ref("riskmetric")
+```
+
+```
+## &lt;pkg_install, pkg_ref&gt; riskmetric v0.1.0
+## $path
+##   [1] "/Library/Frameworks/R.framework/V
+##   ersions/4.0/Resources/library/riskmetr
+##   ic"
+## $source
+##   [1] "pkg_install"
+## $version
+##   [1] '0.1.0'
+## $name
+##   [1] "riskmetric"
+## $bug_reports...
+## $bug_reports_host...
+## $bug_reports_url...
+## $description...
+## $downloads...
+## $help...
+## $help_aliases...
+## $license...
+## $maintainer...
+## $news...
+## $r_cmd_check...
+## $release_date...
+## $remote_checks...
+## $source_control_url...
+## $vignettes...
+## $website_urls...
+```
+]
+
+---
+
+# {riskmetric} `pkg_ref`
+
+.pull-left[
+Instantiate a stateful `pkg_ref` object
+
+```r
+pkg &lt;- pkg_ref("riskmetric")
+pkg
+```
+
+```
+## &lt;pkg_install, pkg_ref&gt; riskmetric v0.1.0
+## $path
+##   [1] "/Library/Frameworks/R.framework/V
+##   ersions/4.0/Resources/library/riskmetr
+##   ic"
+## $source
+##   [1] "pkg_install"
+## $version
+##   [1] '0.1.0'
+## $name
+##   [1] "riskmetric"
+## $bug_reports...
+## $bug_reports_host...
+## $bug_reports_url...
+## $description...
+## $downloads...
+## $help...
+## $help_aliases...
+## $license...
+## $maintainer...
+## $news...
+## $r_cmd_check...
+## $release_date...
+## $remote_checks...
+## $source_control_url...
+## $vignettes...
+## $website_urls...
+```
+]
+
+.pull-right[
+Indexing prompts stateful data collection
+
+```r
+aliases &lt;- pkg$help_aliases
+pkg
+```
+
+```
+## &lt;pkg_install, pkg_ref&gt; riskmetric v0.1.0
+## $help_aliases
+##                            %||%
+##              "if_not_null_else"
+##                          .tools
+##                     "dot-tools"
+##                  allow_mutation
+##                "allow_mutation"
+##   &lt;continued&gt;
+## $path
+##   [1] "/Library/Frameworks/R.framework/V
+##   ersions/4.0/Resources/library/riskmetr
+##   ic"
+## $source
+##   [1] "pkg_install"
+## $version
+##   [1] '0.1.0'
+## $name
+##   [1] "riskmetric"
+## $bug_reports...
+## $bug_reports_host...
+## $bug_reports_url...
+## $description...
+## $downloads...
+## $help...
+## $license...
+## $maintainer...
+## $news...
+## $r_cmd_check...
+## $release_date...
+## $remote_checks...
+## $source_control_url...
+## $vignettes...
+## $website_urls...
+```
+]
+
+---
+
+# {riskmetric} `pkg_ref`
+
+Accessing a field in the class uses an S3 generic to retrieve content, which
+often themselves dispatches on `pkg_ref` class to extract content from respective
+reference sources in a unified (preferably atomic) format.
+
+This allows developers to introduce new metrics, using fields without having to
+manage interdependence and execution order.
+
+
+```r
+pkg_ref_cache.example &lt;- function(x, name, ...) {
+  UseMethod("pkg_ref_cache.example")
+}
+
+pkg_ref_cache.example.pkg_install &lt;- function(x, name, ...) {
+  length(pkg$help_aliases)
+}
+
+pkg$example
+```
+
+```
+## [1] 116
+```
+
+---
+
+# {riskmetric} `assess_*` &amp; `score_*`
+
+The rest of the process is information management and data processing:
+
+- `assess_*` functions extract pertinent data from collected metadata
+- `score_*` functions score risk on a numeric scale
+- `summarize_scores` aggregates scores into a summary risk measure
+
+
+```r
+pkg_ref(c("riskmetric", "utils", "tools")) %&gt;%
+  pkg_assess() %&gt;%
+  pkg_score()
+```
+
+
+
+
+```
+## # A tibble: 3 x 18
+##   package    version pkg_ref             pkg_score news_current has_vignettes
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;list&lt;pkg_ref&gt;&gt;         &lt;dbl&gt; &lt;pkg_scor&gt;   &lt;pkg_scor&gt;   
+## 1 riskmetric 0.1.0   riskmetric&lt;install&gt;     0.385 1            1            
+## 2 utils      4.0.5   utils&lt;install&gt;          0.786 0            1            
+## 3 tools      4.0.5   tools&lt;install&gt;          0.857 0            0            
+## # … with 12 more variables: has_bug_reports_url &lt;pkg_scor&gt;,
+## #   bugs_status &lt;pkg_scor&gt;, license &lt;pkg_scor&gt;, export_help &lt;pkg_scor&gt;,
+## #   downloads_1yr &lt;pkg_scor&gt;, has_website &lt;pkg_scor&gt;, r_cmd_check &lt;pkg_scor&gt;,
+## #   remote_checks &lt;pkg_scor&gt;, has_maintainer &lt;pkg_scor&gt;, has_news &lt;pkg_scor&gt;,
+## #   has_source_control &lt;pkg_scor&gt;, covr_coverage &lt;pkg_scor&gt;
+```
+
+---
+
+# Summary
+
+- We use a lazy, stateful S3 classed environment to ease order-dependent
+  evaluation cognitive burden &amp; execution management
+- We leverage S3 dispatch to make it easy to develop new metrics with minimal
+  class system awareness
+- We "double dispatch" on both field and subclass to provide a mechanism of
+  providing alternative paths to deriving metric data, dependent on where data
+  is being pulled from
+- Overall, this has fostered good engagement with organizations and industry
+  partners, many of which are relatively new to R
+
+---
+
+# Thanks!
+
+### Special thanks to
+
+- Yilong Zhang (Developer)
+- Marly Cormar (Developer [Shiny app interface](www.github.com/pharmaR/risk_assessment))
+- Eli Miller (Developer)
+- Eric Milliman (Developer)
+- Mark Padgham (Reviewer &amp; keeps us aligned with ROpenSci's awesome work)
+- Juliane Manitz (Developer)
+
+### Happy to field questions
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
