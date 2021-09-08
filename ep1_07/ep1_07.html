@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>The Grammar of Experimental Design</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Emi Tanaka" />
+    <script src="lib/header-attrs-2.8/header-attrs.js"></script>
+    <link href="lib/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <script src="lib/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <link href="lib/asciinema_player-2.6.1/asciinema-player.css" rel="stylesheet" />
+    <script src="lib/asciinema_player-2.6.1/asciinema-player.js"></script>
+    <script src="lib/jquery-3.2.1/jquery-3.2.1.min.js"></script>
+    <script src="lib/asciinema_player-binding-1.0.0/asciinema_player.js"></script>
+    
+    <!--
+    <script defer src="assets/all.min.js"></script>
+
+    Need below to enable css contents
+
+    <script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+
+    -->
+    <link rel="stylesheet" href="assets/font-awesome-all.css" type="text/css" />
+    <link rel="stylesheet" href="assets/tachyons-addon.css" type="text/css" />
+    <link rel="stylesheet" href="assets/animate.css" type="text/css" />
+    <link rel="stylesheet" href="assets/fira-code.css" type="text/css" />
+    <link rel="stylesheet" href="assets/boxes.css" type="text/css" />
+    <link rel="stylesheet" href="assets/table.css" type="text/css" />
+    <link rel="stylesheet" href="assets/styles.css" type="text/css" />
+    <link rel="stylesheet" href="assets/monash-brand.css" type="text/css" />
+    <link rel="stylesheet" href="assets/monash-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="assets/slide-types.css" type="text/css" />
+    <link rel="stylesheet" href="assets/custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+exclude: true
+class: middle center hide-slide-number monash-bg-gray80
+
+
+
+
+
+.info-box.w-50.bg-white[
+These slides are viewed best by Chrome or Firefox and occasionally need to be refreshed if elements did not load properly. Please note this web version takes a while to load. See &lt;a href="edibble.pdf"&gt;here for the PDF &lt;i class="fas fa-file-pdf"&gt;&lt;/i&gt;&lt;/a&gt;. 
+]
+
+&lt;br&gt;
+
+.white[Press the **right arrow** to progress to the next slide!]
+
+
+
+---
+
+
+background-size: cover
+class: title-slide
+count: false
+
+# .monash-blue[The Grammar of Experimental Design]
+
+&lt;br&gt;
+
+&lt;h2 style="font-weight:900!important;"&gt;&lt;/h2&gt;
+
+.bottom_abs.width100[
+
+Presenter: *Emi Tanaka*
+
+&lt;i class="fas fa-university"&gt;&lt;/i&gt; Department of Econometrics and Business Statistics, &lt;Br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Monash University, Melbourne, Australia
+
+&lt;i class="fas fa-envelope"&gt;&lt;/i&gt;  emi.tanaka@monash.edu
+
+&lt;a href="https://twitter.com/statsgen" style="color:black"&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt; @statsgen&lt;/a&gt;
+
+&lt;i class="fas fa-calendar-alt"&gt;&lt;/i&gt; 7 July 2021 @ useR!2021
+
+&lt;br&gt;
+
+]
+
+???
+
+Hi there, I'm Emi Tanaka and I'm going to be talking to you about the Grammar of Experimental Design.
+
+
+---
+
+background-image: url("images/OLD_PAPER_TEXTURE.jpg")
+background-size: 100%
+count: false
+
+
+# Classical split-plot design
+
+**Context**: Study of 2 irrigation methods and 2 fertilizer brands on the yields of a crop. 
+
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src='images/split1.png' alt="Figure shows four rectangles that respresent the wholeplots"&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;a href='https://www.freepik.com/free-photos-vectors/background'&gt;Background vector created by boggus - www.freepik.com&lt;/a&gt;
+
+]
+
+???
+
+To begin with let's have a look at this classical split-plot design. 
+The context of this experiment is that it's a study on the yields of a crop with two irrigation methods, either irrigated or rain-fed, and two fertilizer brands. 
+
+So in order to conduct this study, the experimental resources that is available to us is this land where there are four fields, which I'm going to referring to these as the wholeplot. 
+
+---
+
+background-image: url("images/OLD_PAPER_TEXTURE.jpg")
+background-size: 100%
+count: false
+
+# Classical split-plot design
+
+**Context**: Study of two irrigation methods and two fertilizer brands on yield of a crop. 
+
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src='images/split2.png' alt="The outer two wholeplots have received irrigation while the middle two wholeplots is rain-fed."&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;a href='https://www.freepik.com/free-photos-vectors/background'&gt;Background vector created by boggus - www.freepik.com&lt;/a&gt;
+
+]
+
+???
+
+Now for the irrigation method, we have a restriction such that only one irrigation method can be applied per wholeplot. So what you see here, where we got the irrigated wholeplots on the edges and the rainfed wholeplots in the middle, is just one possible randomisation of the irrigation method on the whole plots. 
+
+---
+
+background-image: url("images/OLD_PAPER_TEXTURE.jpg")
+background-size: 100%
+
+# Classical split-plot design
+
+**Context**: Study of two irrigation methods and two fertilizer brands on yield of a crop. 
+
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src='images/split3.png' alt="the wholeplots are split into two with 8 subplots in total"&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;a href='https://www.freepik.com/free-photos-vectors/background'&gt;Background vector created by boggus - www.freepik.com&lt;/a&gt;
+
+]
+
+???
+
+Then what we do next is to split the wholeplot into two subplots, which means that we have 8 subplots in total.
+
+---
+
+background-image: url("images/OLD_PAPER_TEXTURE.jpg")
+background-size: 100%
+
+# Classical split-plot design
+
+**Context**: Study of two irrigation methods and two fertilizer brands on yield of a crop. 
+
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src='images/split4.png' alt="The first subplot receives fertilizer brand A, second subplot receives fertilizer brand B, third one is B, fourth one is A, fifth one is B, sixth one is A, seventh one is B and last one is A."&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;a href='https://www.freepik.com/free-photos-vectors/background'&gt;Background vector created by boggus - www.freepik.com&lt;/a&gt;
+
+]
+
+???
+
+Now the fertilizer can be applied to each subplots independently. We don't want to confound the fertilizer brands to the wholeplot, so for each wholeplot, we randomly apply one fertilizer brand to one subplot and the the remaining subplot receives the other fertilizer brand. What you see here is one possible restricted randomisation of fertilizer onto subplot.
+
+---
+
+background-image: url("images/OLD_PAPER_TEXTURE.jpg")
+background-size: 100%
+
+# Classical split-plot design
+
+**Context**: Study of two irrigation methods and two fertilizer brands on yield of a crop. 
+
+&lt;br&gt;
+&lt;center&gt;
+&lt;img src='images/split5.png' alt="shows the final split plot with randomisation combined from the ones described before"&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;a href='https://www.freepik.com/free-photos-vectors/background'&gt;Background vector created by boggus - www.freepik.com&lt;/a&gt;
+
+]
+
+???
+
+Putting together the two randomisation results, here we have our classical split plot design. 
+
+
+---
+# How to .monash-blue[code] design of experiments?
+
+
+.flex[
+.w-80.br[
+From the grounds up:
+
+```r
+set.seed(1)
+
+# wholeplot
+water &lt;- c("irrigated", "rainfed")
+data.frame(
+  wholeplot = c("W1", "W2", "W3", "W4"),
+  water = sample(rep(water, 2))
+)
+
+# subplot
+brand &lt;- c("A", "B")
+data.frame(
+  subplot = paste0("S", 1:8),
+  fert = as.vector(replicate(4, sample(brand)))
+)
+```
+
+
+
+
+]
+.w-30[
+
+&lt;table class="kable_wrapper"&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td&gt; 
+
+&lt;table class=" lightable-classic" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; wholeplot &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; water &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; W1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; irrigated &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; W2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; irrigated &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; W3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; rainfed &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; W4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; rainfed &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+   &lt;td&gt; 
+
+&lt;table class=" lightable-classic" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; subplot &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fert &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; S8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+]
+
+???
+
+Okay let's get to some R code. We can generate the split plot design from the grounds up just using the base R functions. Here I'm randomising the irrigation method to the wholeplot first, then I randomise the fertilizer brand to subplot. All the result are wrapped up in a data frame format so you can see the output as a table on the right. 
+
+
+---
+
+background-image: url("images/ivan-jevtic-B5EJm5V5gJs-unsplash.jpg")
+background-size: 100%
+
+# The .monash-blue[cool kid] on the block: `agricolae`
+
+
+
+```r
+library(agricolae)
+design.split(trt1 = water, 
+             trt2 = brand,
+             r = 2)$book
+```
+
+| plots|splots |block |water     |brand |
+|-----:|:------|:-----|:---------|:-----|
+|   101|1      |1     |irrigated |A     |
+|   101|2      |1     |irrigated |B     |
+|   102|1      |1     |rainfed   |A     |
+|   102|2      |1     |rainfed   |B     |
+|   103|1      |2     |rainfed   |B     |
+|   103|2      |2     |rainfed   |A     |
+|   104|1      |2     |irrigated |A     |
+|   104|2      |2     |irrigated |B     |
+
+???
+
+Another way you can generate a split plot design is using the very popular agricolae package.
+There's a function called design.split where you parse the first treatment factor that is applied to whole plot and then the second treatment factor to the subplot, and the number of replicates. You can get the design layout with all the randomisation as a table format just like you see here. 
+
+---
+
+layout: true 
+background-image: url("images/joanna-kosinska-mjC9apK53a8-unsplash.jpeg")
+background-size: 100%
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+*start_design("split-plot")
+```
+
+]
+.w-35[
+
+
+
+]
+
+]
+
+???
+
+I've been working on an alternative method implemented as the edibble R package which builds the experimental design progressively by mapping experimental components to an object oriented system. So let me show how it works. First I'm indicating that I'm creating a new experimental design named split plot which creates an intermediate construct of the experimental design.
+
+---
+
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+* set_units(wholeplot = 4)
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split1.png" width="80%" alt="four wholeplots"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+Next, in my code I explicit input that there are 4 wholeplots by using the `set_units` function.
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+  set_units(wholeplot = 4) %&gt;% 
+* set_units(subplot = nested_in(wholeplot, 2))
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split-str.png" width="80%" alt="four wholeplots with two subplots each"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+Next I split each wholeplot into two subplots and I do this by set_units and nested_in and the code now reads that there is a unit called subplot and it is nested in wholplot with 2 subplots per wholeplot. 
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+* set_units(wholeplot = 4,
+*           subplot = nested_in(wholeplot, 2))
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split-str.png" width="80%" alt="the experimental structure with 4 wholeplots and 2 subplots each"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+I don't have to have a separate set_units function, it can all be within one set_units function and this will still be the same result.
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+  set_units(wholeplot = 4, 
+            subplot = nested_in(wholeplot, 2)) %&gt;% 
+* set_trts(water = c("irrigated", "rainfed"),
+*          fertilizer = c("A", "B")))
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split-trt.png" width="80%" alt="two treatment factors: irrigation methods and fertilizer brands"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+Next I'm defining the treatments, there are two factors which is the irrigation method and fertilizer brand. 
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+  set_units(wholeplot = 4, 
+            subplot = nested_in(wholeplot, 2)) %&gt;% 
+  set_trts(water = c("irrigated", "rainfed"), 
+           fertilizer = c("A", "B"))) %&gt;% 
+* allocate_trts(water ~ wholeplot,
+*               fertilizer ~ subplot)
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split-alloc.png" width="80%" alt="treatment factor pointing to a particular unit to show allocation"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+Then I define my intention to allocate which treatments to which units. So you see here water, or the irrigation method, is allocated to wholeplots and fertilizer brands to subplot. 
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+  set_units(wholeplot = 4, 
+            subplot = nested_in(wholeplot, 2)) %&gt;% 
+  set_trts(water = c("irrigated", "rainfed"), 
+           fertilizer = c("A", "B"))) %&gt;% 
+  allocate_trts(water ~ wholeplot, 
+                fertilizer ~ subplot) %&gt;% 
+* randomise_trts()
+```
+
+]
+.w-35[
+
+&lt;center&gt;
+&lt;img src="images/split-edibble.png" width="80%" alt="the final randomisation from edibble R-package"&gt;
+&lt;/center&gt;
+
+]
+
+]
+
+???
+
+Then we randomise the treatments to the units. The benefit of this approach is that you can mix and match any steps you like if you don't like the original implementation. 
+
+---
+
+# The .monash-blue[new kid] on the block: `edibble`
+
+.flex[
+.w-65[
+
+```r
+library(edibble)
+start_design("split-plot") %&gt;% 
+  set_units(wholeplot = 4,
+            subplot = nested_in(wholeplot, 2)) %&gt;% 
+  set_trts(water = c("irrigated", "rainfed"),
+           fertilizer = c("A", "B")) %&gt;% 
+  allocate_trts(water ~ wholeplot,
+                fertilizer ~ subplot) %&gt;% 
+  randomise_trts() %&gt;% 
+* serve_table()
+```
+
+]
+.w-35[
+
+|wholeplot  |subplot  |fertilizer |water     |
+|:----------|:--------|:----------|:---------|
+|wholeplot1 |subplot1 |B          |rainfed   |
+|wholeplot1 |subplot2 |A          |rainfed   |
+|wholeplot2 |subplot3 |B          |irrigated |
+|wholeplot2 |subplot4 |A          |irrigated |
+|wholeplot3 |subplot5 |A          |irrigated |
+|wholeplot3 |subplot6 |B          |irrigated |
+|wholeplot4 |subplot7 |B          |rainfed   |
+|wholeplot4 |subplot8 |A          |rainfed   |
+
+
+]
+
+]
+
+???
+
+Now finally you can signal that you're done constructing the design and get the output as a data frame using the serve_table command.
+
+---
+
+class: transition 
+
+&lt;h1 id="shadowBox" class="rainbow rainbow_text_animated"&gt;Grammar of &lt;br&gt;Experimental Designs&lt;/h1&gt;
+
+.gray.dance[Coming soon to an experiment near you]
+
+https://github.com/emitanaka/edibble
+
+???
+
+That was a quick overview of the edibble R-package which implements what I call the grammar of experimental design. You can find the package and more information on my github account at github.com/emitanaka/edibble.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="lib/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "magula",
+"highlightLanguage": "r",
+"highlightLines": true,
+"highlightSpans": false,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%",
+"navigation": {
+"scroll": false,
+"touch": true,
+"click": false
+},
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'lib/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,330 @@
+/* dancing-script-700 - latin */
+@font-face {
+  font-family: 'Dancing Script';
+  font-style: normal;
+  font-weight: 700;
+  src: url('fonts/dancing-script-v16-latin-700.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('fonts/dancing-script-v16-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/dancing-script-v16-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/dancing-script-v16-latin-700.woff') format('woff'), /* Modern Browsers */
+       url('fonts/dancing-script-v16-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/dancing-script-v16-latin-700.svg#DancingScript') format('svg'); /* Legacy iOS */
+}
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.menu {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.square {
+    line-height: 50px;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display:inline-block;
+    text-align: center;
+    font-weight: bold;
+    background-color: #006DAE;
+    color: white;
+    /*box-shadow: -5px -5px 5px 0px #888888;
+    border: 1px solid black; */
+}
+
+.circle {
+    border-radius: 50%;
+    width: 30px;
+    line-height: 30px;
+    padding: 3px;
+    display:inline-block;
+    background-color: white;
+    color: #006DAE;
+}
+
+.box, .bbox {
+  background-color: white;
+  color: #006DAE;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.bbox {
+  background-color: black;
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.circle-big {
+    border-radius: 50%;
+    width: 100px;
+    line-height: 100px;
+    padding: 3px;
+    display:inline-block;
+
+    background: white;
+    color: #006DAE;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.transition {
+  background-image: url("");
+}
+
+.transition > .footnote {
+  display: none;
+}
+
+.plot-box {
+  border: solid 3px black;
+  background-color:white;
+  /*padding-top: 0.5em;*/
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  margin-right:5px;
+  z-index: 1;
+}
+
+.plot-box:before {
+  position: absolute;
+  content: "design sketch";
+  padding: 5px;
+  margin-top: -0.5em;
+  margin-left: 0.5em;
+  background-color: #250033;
+  font-size: 12pt;
+  color: white;
+  z-index: 2;
+}
+
+.w---500 {
+  width: 500px!important;
+}
+
+.w---600 {
+  width: 600px!important;
+}
+
+.w---800 {
+  width: 800px!important;
+}
+
+.h---500 {
+  height: 500px!important;
+}
+.h---400 {
+  height: 400px!important;
+}
+
+.h---340 {
+  height: 340px!important;
+}
+
+.h---300 {
+  height: 300px!important;
+}
+
+.h---250 {
+  height: 250px!important;
+}
+
+.h---240 {
+  height: 240px!important;
+}
+
+.h---200 {
+  height: 200px!important;
+}
+
+.h---150 {
+  height: 150px!important;
+}
+
+.yellow code {
+  color: yellow!important;
+}
+
+.white code {
+  color: white!important;
+}
+
+.grey {
+  color: #DEDEDE;
+}
+
+.square-number {
+  padding: 3px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: white;
+  text-align: center;
+  color: #006DAE;
+  font-size: 60pt;
+  font-weight: bold;
+}
+
+.pad-left {
+  padding-left: 30px;
+}
+
+.black {
+  color: black!important;
+}
+
+.info-box, .note-box {
+  padding: 12px 24px 12px 30px;
+  background-color: #99d6ff;
+  border: none;
+  border-left: 16px solid #006DAE;
+  position: relative;
+  border-radius: 0%;
+}
+
+.note-box {
+  background-color: lightyellow;
+  border-color: rgb(255,196,12);
+}
+
+.info-box::before, .note-box::before {
+  background-color: #006DAE;
+  border-radius: 100%;
+  color: #cceeff;
+  content: "\f5a1";
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 45px;
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  text-align: center;
+  top: 25px;
+  left: -28.5px;
+}
+
+.note-box::before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900!important;
+  background-color: rgb(255,196,12);
+  color: #FFFFCC;
+}
+
+.info-box::before {
+  content: "\f129";
+}
+
+.remark-slide-content:not(.title-slide):not(.transition) h1:first-of-type {
+  color: black;
+  margin: -25px;
+  padding: 10px;
+  margin-bottom: 0;
+  font-size: 50px!important;
+  font-family: 'Dancing Script', sans-serif;
+}
+
+.dance {
+  font-family: 'Dancing Script', sans-serif;
+}
+
+.remark-slide-content h1:first-of-type code {
+  color: gray;
+}
+
+.bottom--20 {
+  bottom: 20%;
+}
+
+.remark-slide > .w-60 {
+  padding-right: calc(40% - 25px);
+}
+.remark-slide > .w-70 {
+  padding-right: calc(30% - 25px);
+}
+.remark-slide > .w-60 h1:first-of-type {
+  margin-right: -459px; /* - 1210 * 0.4 + 25 */
+}
+.remark-slide > .w-70 h1:first-of-type {
+  margin-right: -338px; 
+}
+
+.kable_wrapper {
+  border: none;
+}
+
+.transition a {
+  color: black!important;
+  font-size: 50px;
+}
+
+.transition  h1:first-of-type {
+  font-size: 100px!important;
+  font-family: 'Dancing Script', sans-serif;
+}
+
+
+#shadowBox {
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Black w/opacity/see-through */
+    border: 3px solid;
+}
+
+.rainbow {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 32px;
+    font-family: monospace;
+    letter-spacing: 5px;
+}
+.rainbow_text_animated {
+    background: linear-gradient(to right, #ff0000, #ffa500 , #ffff00, #008000, #0000ff, #4b0082, #ee82ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 6s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
+
+.remark-slide-number{ display: none;}
+
+thead > tr {
+  background: #1CB669!important;
+}
+
+tr:nth-child(odd) {
+    background: white;
+}
+
+tr:nth-child(even) {
+    background: white;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 0px;
+    border-color: grey;
+}
