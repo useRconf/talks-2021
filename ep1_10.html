@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Teaching Advanced Data Science in R: Successes and Failures</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Lisa Lendway, Assistant Professor, NTT" />
+    <link href="libs/remark-css-0.0.1/useR.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/useR-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Teaching Advanced Data Science in R: Successes and Failures
+### Lisa Lendway, Assistant Professor, NTT
+### Macalester College, St. Paul, MN USA
+
+---
+
+
+
+## Course logistics
+
+* Advanced Data Science in R is a new course for Junior and Senior Applied Math and Statistics majors.
+* This year, the course took place Mondays, Wednesdays, and Fridays from 11AM-1PM on Zoom for 7.5 weeks. 
+* Course material was posted to the course website, and students were expected to read through that on their own.  
+* Class time was dedicated to working on exercises or the final project, student presentations on R packages, and listening to guest speakers from various industries. 
+
+Course website: https://advanced-ds-in-r.netlify.app/
+
+---
+## Successes and Failures
+
+* Next, I will talk about successes and failures within each course learning objective.
+* I'll end by discussing successes and failures that were unrelated to the course learning objectives.
+
+Course website: https://advanced-ds-in-r.netlify.app/
+
+---
+## Git/Github
+
+**Make using git and GitHub a habit. Get more comfortable with using it when collaborating with others - branching, pull requests, etc.**
+
+.pull-left[
+**Successes**
+
+* Students used it for each of their assignments, providing a link to the repo each time.  
+* They were all collaborators on the group project.
+
+]
+
+.pull-right[
+**Failures**
+
+* In general, they didn't use branches or make pull requests. This is likely because I didn't require that they do it.
+]
+
+      
+
+---
+## Create a website
+
+**Create a website and add work from the course that you can share with future employers, advisers, collaborators, etc.**
+
+.pull-left[
+**Successes**
+* They all created websites!  
+]
+
+.pull-right[
+**Failures**
+* Many were VERY basic, including only a landing page with their name. Next time, I should make more specific requirements. 
+* Most of them didn't choose to post anything on them. Again, I didn't require this.
+
+]
+
+
+---
+## Machine Learning methods
+
+**Become familiar with more machine learning models and methods and the associated R code. **
+
+.pull-left[
+**Successes**
+* Students learned the {tidymodels} framework, stacking, interpretable machine learning methods, boosting, and using H20 in R. 
+]
+
+.pull-right[
+**Failures**
+* Reviewing machine learning via {tidymodels} was more difficult than I realized it would be since they were new to the code.
+* We didn't have time for deep learning.  
+]
+
+---
+## Learning on their own and teaching others
+
+**Gain confidence in learning new R functions on your own and experience teaching others to use them.**  
+      
+.pull-left[
+**Successes**
+* Students gave group presentations on a package or set of functions. The list of topics I gave them to choose from was broad enough to satisfy all student interest.
+* Students did a lot of problem solving on their own, without my help, to prepare their materials.  
+
+]
+
+.pull-right[
+**Failures**
+* I should check in with the group before their presentation to assure the topic covers the right amount of material and to make sure they aren't using out-of-date code.  
+]
+
+---
+## Put a model into production
+
+**Understand what it means to "put a model into production".** 
+
+      
+.pull-left[
+**Successes**
+* Students saved a model they created using the `saveRDS()` function and used the saved model in a shiny app.  
+]
+
+.pull-right[
+**Failures**
+* In the future, use Docker and the {plumber} R package to more closely resemble what it's like to put a model in production.  
+]
+
+---
+## Importance of data ethics/justice
+
+**Appreciate the importance of data ethics/justice and integrate it into all aspects of data science.**  
+      
+.pull-left[
+**Successes**
+* There was a reading or viewing exercise on each homework assignment about data ethics/justice. 
+* Student reflected on what they watched/read.
+]
+
+.pull-right[
+**Failures**
+* Reserve some time in class for discussions or maybe even for watching/reading.
+* The reflections weren't directly related to the problems on their assignment. Find ways to link them together better. 
+]
+
+---
+
+## Other things that went well
+
+* Students enjoyed having the speakers from industry every week. It gave them many different perspectives and connections.
+* Class format worked pretty well. It was nice that they had a lot of time in class to work through problems, which is where they ran into a lot of questions.  
+
+---
+
+## What didn't go well? 
+
+Controllable:
+
+* Needed to start the projects earlier so they had time to make some mistakes at the beginning and start over if they desired.  
+* Homework assignments were too long. Make those shorter and make project work part of the weekly assignments.  
+* SO MUCH more I wanted to cover and in SO MUCH more detail. It might be better to skip some topics or try to incorporate some into their machine learning course. For example, if they learned {tidymodels} in that course, I could skip it in this course. 
+
+Uncontrollable:
+
+* The 7.5 week intense module, rather than a 15 week semester felt too condensed.  
+ 
+
+
+---
+
+## THANK YOU!
+
+Thanks for listening to this brief talk. If you teach similar material, I'd love to chat about your experiences. Reach out by email, `llendway@macalester.edu`, or on Twitter `@lisalendway`.
+
+Course website: https://advanced-ds-in-r.netlify.app/
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
