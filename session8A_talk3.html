@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Visualization of highly-multiplexed imaging data with cytomapper</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Nils Eling" />
+    <meta name="date" content="2021-09-07" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/useR-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Visualization of highly-multiplexed imaging data with <code>cytomapper</code>
+### Nils Eling
+### Department of Quantitative Biomedicine, University of Zurich
+### Institute for Molecular Health Sciences, ETH Zurich
+### 09/07/2021
+
+---
+
+background-image: url(imgs/cytomapper_sticker.png)
+background-size: 150px
+background-position: 95% 10%
+  
+
+
+## The `cytomapper` R/Bioconductor package
+
+Contains three broad functionalities:
+
+* Visualization of pixel-intensities as composites of up to six channels (`plotPixels`)
+
+* Visualization of cell-specific features on segmentation masks (`plotCells`)
+
+* Interactive gating of cells and visualization of gated cells on images (`cytomapperShiny`)
+
+### Installation
+
+Via Bioconductor (release version):
+
+
+```r
+BiocManager::install("cytomapper")
+```
+
+or from Github (development version):
+
+
+```r
+remotes::install_github("BodenmillerGroup/cytomapper", build_vignettes = TRUE)
+```
+
+---
+
+## Data structure
+
+.pull-left[
+
+* `cytomapper` uses a `SingleCellExperiment` data container to store cell-specific metadata and intensity features
+
+* the new class `cytomapper::CytoImageList` stores individual `EBImage::Image` objects in form of a `S4Vectors::SimpleList` container
+
+* visualization of cell-specific metadata is possible by linking a `CytoImageList` and `SingleCellExperiment` object via the function parameters `img_id` and `cell_id`
+
+]
+
+.pull-right[
+
+![cytomapper overview figure. A) The plotCells function combines a SingleCellExperiment and CytoImageList object to visualize marker expression or cell-specific metadata on segmentation masks. B) The plotPixels function requires a CytoImageList object to visualize the combined expression of up to six markers as composite images](imgs/Overview.png)
+
+]
+
+&lt;div class="my-footer" style="height=100px;"&gt;&lt;a href="https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html"&gt;https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html&lt;/a&gt;&lt;br&gt;
+&lt;a href="https://bioconductor.org/packages/release/bioc/html/EBImage.html"&gt;https://bioconductor.org/packages/release/bioc/html/EBImage.html&lt;/a&gt;&lt;br&gt;
+&lt;a href="https://bioconductor.org/packages/release/bioc/html/S4Vectors.html"&gt;https://bioconductor.org/packages/release/bioc/html/S4Vectors.html&lt;/a&gt;&lt;br&gt;
+&lt;a href="https://github.com/BodenmillerGroup/ImcSegmentationPipeline"&gt;https://github.com/BodenmillerGroup/ImcSegmentationPipeline&lt;/a&gt;&lt;/div&gt; 
+
+???
+
+In the displayed framework, cells are defined as pixel sets with the same id on the segmentation mask. These masks and their quantification are done in pre-processing steps that are not mentioned in detail here put a link to a segmentation pipeline can be found in the footer.
+
+---
+
+## Reading in the images
+
+The `cytomapper::loadImages` function reads in multi-channel images and segmentation masks into `CytoImageList` objects.
+
+
+```r
+library(cytomapper)
+
+# Read in 32-bit multi-channel images
+(images &lt;- loadImages("../data/images/", pattern = ".tiff"))
+```
+
+```
+## CytoImageList containing 3 image(s)
+## names(3): E30_a0_full_clean G23_a0_full_clean J01_a0_full_clean 
+## Each image contains 38 channel(s)
+```
+
+```r
+# Read in 16-bit unsigned integer segmentation masks
+(masks &lt;- loadImages("../data/masks/", pattern = ".tiff", as.is = TRUE))
+```
+
+```
+## CytoImageList containing 3 image(s)
+## names(3): E30_a0_full_mask G23_a0_full_mask J01_a0_full_mask 
+## Each image contains 1 channel
+```
+
+&lt;div class="my-footer" style="height=50px;"&gt;&lt;a href="https://github.com/BodenmillerGroup/cytomapper_demos"&gt;https://github.com/BodenmillerGroup/cytomapper_demos&lt;/a&gt;&lt;/div&gt; 
+
+???
+
+The loadImages function reads in .tiff, .png or .jpg images and formats them into a CytoImageList container. The as.is parameter needs to be set to TRUE to correctly read in 16-bit unsigned integer images. The multi-channel images and segmentation masks are provided in the BodenmillerGroup/cytomapper_demos Github repository.
+
+---
+
+## Reading in the single-cell data
+
+Cell-specific metadata and summarized intensity features are stored in form of a `SingleCellExperiment` object.
+
+
+```r
+# Read in single-cell data
+(sce &lt;- readRDS("../data/sce.rds"))
+```
+
+```
+## class: SingleCellExperiment 
+## dim: 38 5819 
+## metadata(0):
+## assays(2): counts exprs
+## rownames(38): H3 SMA ... Ir191 Ir193
+## rowData names(15): TubeNb MetalTag ... miCAT2 miCAT
+## colnames(5819): E30_1 E30_2 ... J01_2173 J01_2174
+## colData names(26): slide id ... Ethnicity BMI
+## reducedDimNames(0):
+## mainExpName: NULL
+## altExpNames(0):
+```
+
+&lt;div class="my-footer" style="height=50px;"&gt;&lt;a href="https://github.com/BodenmillerGroup/cytomapper_demos"&gt;https://github.com/BodenmillerGroup/cytomapper_demos&lt;/a&gt;&lt;/div&gt; 
+
+???
+
+In the BodenmillerGroup/cytomapper_demos Github repository, you can also find an .rds file containing a SingleCellExperiment object that holds the mean channel intensities per cell and all associated metadata (e.g. cell-type label). Cell-specific intensities are stored in the `counts(sce)` slot; cell-specific metadata are stored in the `colData(sce)` slot and marker-specific metadata are stored in `rowData(sce)`.
+
+---
+
+## Formatting the data
+
+Prior to visualization, the channel names and image-specific metadata should be set.
+
+
+```r
+# Add channel names
+channelNames(images) &lt;- rownames(sce)
+
+# Add image name to metadata
+(mcols(images) &lt;- mcols(masks) &lt;- DataFrame(ImageName = c("E30", "G23", "J01")))
+```
+
+```
+## DataFrame with 3 rows and 1 column
+##     ImageName
+##   &lt;character&gt;
+## 1         E30
+## 2         G23
+## 3         J01
+```
+
+???
+
+We will need to set the channel names of the images via the `channelNames` getter/setter function. The channel order here is the same as the row order of the `SingleCellExperiment` object. We will also need to synchronise the image IDs across the multi-channel images and segmentation masks by storing a DataFrame in the elementMetadata slot of the CytoImageList object.
+
+---
+
+## Measuring object features
+
+The `cytomapper::measureObjects` function computes morphological (e.g. cell shape, size and location) and intensity features (default: mean intensity per channel and object/cell).
+
+
+```r
+sce_2 &lt;- measureObjects(mask = masks, image = images, img_id = "ImageName")
+sce_2
+```
+
+```
+## class: SingleCellExperiment 
+## dim: 38 5819 
+## metadata(0):
+## assays(1): counts
+## rownames(38): H3 SMA ... Ir191 Ir193
+## rowData names(0):
+## colnames: NULL
+## colData names(8): ImageName object_id ... m.majoraxis m.eccentricity
+## reducedDimNames(0):
+## mainExpName: NULL
+## altExpNames(0):
+```
+
+???
+
+The pixel intensities per cell can be summarized in different ways (e.g. as quantiles). Furthermore, parallelization is possible by setting `BPPARAM = bpparam()`. Cell-specific morphological features are stored in `colData(sce)`.
+
+---
+
+## Visualize multi-channel images
+
+.pull-left[
+
+
+```r
+plotPixels(
+    image = images,
+    colour_by = c("PIN", "CD4", "CD8a"), 
+    colour = list(PIN = c("black", "yellow"),
+                  CD4 = c("black", "blue"),
+                  CD8a = c("black", "red")),
+    bcg = list(PIN = c(0, 10, 1),
+               CD4 = c(0, 8, 1),
+               CD8a = c(0, 10, 1)),
+    image_title = list(
+        text = c("Non-diabetic",
+                 "Recent onset T1D",
+                 "Long duration T1D")
+        ),
+    scale_bar = list(
+        length = 100,
+        label = expression("100 " ~ mu * "m")
+        ))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/plotPixels-2-1.png" width="504" /&gt;
+
+]
+
+???
+
+The `plotPixels` function visualizes pixel intensities as composites of up to six markers. It requires at least the `image` parameters that accepts a `CytoImageList` object containing the individual multi-channel images. The `colour_by` parameter defines the channel names by which to colour the composite. Per channel, a colour scale is generated by setting `colour`. The bcg parameter defines the background (b), contrast (c), gamma (g) adjustment of each channel in terms of addition (b), multiplication (c) and exponentiation (g). The attributes of the image titles can be set via the parameter `image_title` and attributes of the scale bar are set via the parameter `scale_bar`.
+
+---
+
+## Visualize segmented cells
+
+.pull-left[
+
+
+```r
+cur_sce &lt;- sce[,sce$CellType %in% 
+    c("beta", "alpha", "delta", "Tc", "Th")]
+plotCells(
+    mask = masks,
+    object = cur_sce,
+    cell_id = "CellNumber",
+    img_id = "ImageName",
+    colour_by = "CellType",
+    image_title = list(
+        text = c("Non-diabetic",
+                 "Recent onset T1D",
+                 "Long duration T1D"),
+        colour = "black"),
+    scale_bar = list(
+        length = 100,
+        label = expression("100 " ~ mu * "m"),
+        colour = "black"),
+    missing_colour = "white",
+    background_colour = "gray")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/plotCells-2-1.png" width="504" /&gt;
+
+]
+
+To highlight the functionality of the `plotCells` function, the `SingleCellExperiment` object is first subsetted to contain only objects of a certain type. Here, these are pancreatic islet cells and T cells. The `plotCells` function requires the `mask` parameter, which takes a `CytoImageList` object storing the segmentation masks. Via the `object` parameter, the user can supply a `SingleCellExperiment` object containing expression or metadata. Via the `cell_id`, cells contained in the `SingleCellExperiment` object are linked to their ID on the segmentation mask. Setting `img_id` will link cells in the `SingleCellExperiment` object to their corresponding images. The `missing_colour` parameter defines the colour of cells, which are not contained in the SingleCellExperiment object. Finally, the `background_colour` parameter sets the colour of the segmentation mask background. 
+
+---
+
+## Outline cells on images
+
+.pull-left[
+
+
+```r
+plotPixels(
+    image = images,
+    object = cur_sce,
+    mask = masks,
+    cell_id = "CellNumber",
+    img_id = "ImageName",
+    colour_by = c("PIN", "CD4", "CD8a"), 
+    outline_by = "CellType",
+    colour = list(PIN = c("black", "yellow"),
+                  CD4 = c("black", "blue"),
+                  CD8a = c("black", "red")),
+    bcg = list(PIN = c(0, 10, 1),
+               CD4 = c(0, 8, 1),
+               CD8a = c(0, 10, 1)),
+    image_title = list(text = c("Non-diabetic",
+                                "Recent onset T1D",
+                                "Long duration T1D")),
+    scale_bar = list(length = 100,
+                     label = expression("100 " ~ mu * "m")),
+    thick = TRUE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/outlineCells-2-1.png" width="504" /&gt;
+
+]
+
+???
+
+Finally, `cytomapper` can be used to outline cells on composite images while colouring the outlines based on specified metadata. For this, the `plotPixels` function combines the multi-channel images, the SingleCellExperiment object and the segmentation masks. AS before, cells and images are matched via the `cell_id` and `img_id` parameters. Here, the outline colour is determined by the cells' phenotype and outlines are expaned by setting `thick = TRUE`.
+
+---
+
+&lt;img src="imgs/cytomapper_sticker.png" align="right" alt="cytomapper sticker" width="175px"/&gt;
+
+## Acknowledgements and useful links
+
+**Co-authors:** 
+
+Nicolas Damond, Tobias Hoch, Bernd Bodenmiller
+
+**Publication:**
+
+&lt;a href="https://academic.oup.com/bioinformatics/article/36/24/5706/6050702"&gt;Eling _et al._, cytomapper: an R/Bioconductor package for visualization of highly multiplexed imaging data, Bioinformatics, 2020&lt;/a&gt;
+
+&lt;a href="https://github.com/BodenmillerGroup/cytomapper_publication"&gt;https://github.com/BodenmillerGroup/cytomapper_publication&lt;/a&gt;
+
+&lt;img src="imgs/eth_uzh_logo_kurz_pos_en.png" alt="uzh eth logo" align="right" width="520px"/&gt;
+
+**Vignettes:**
+
+&lt;a href="https://www.bioconductor.org/packages/release/bioc/vignettes/cytomapper/inst/doc/cytomapper.html"&gt;Visualization of imaging cytometry data in R&lt;/a&gt;
+
+&lt;a style="color=blue;" href="https://www.bioconductor.org/packages/release/bioc/vignettes/cytomapper/inst/doc/cytomapper_ondisk.html"&gt;On disk storage of images&lt;/a&gt;
+
+&lt;img src="imgs/EMBO_logo_1_640x360.jpg" align="right" alt="EMBO logo" width="250px"/&gt;
+&lt;img src="imgs/marie_curie1.jpg" alt="MSCA logo" align="right" width="250px"/&gt;
+
+**Related packages:**
+
+&lt;a href="https://bioconductor.org/packages/release/data/experiment/html/imcdatasets.html"&gt;imcdatasets&lt;/a&gt;
+
+&lt;a href="https://github.com/BodenmillerGroup/imcRtools"&gt;imcRtools&lt;/a&gt;
+
+???
+
+With this, I want to thank my colleagues who helped me with the work: Nicolas Damond, Tobias Hoch and Bernd Bodenmiller and my funders EMBO and Marie Curie. If you want to check out cytomapper have a look at the publication and the package vignettes. Specifically how to read in and store images on disk. We have also been working on extending the multiplexed imaging capabilities of Bioconductor by setting up the imcdatasets package which stores publically available imaging mass cytometry datasets and imcRtools which provides functions for multiplexed imaging data analysis - but which is still under development. 
+
+---
+
+## Session Info
+
+
+
+
+```r
+sessioninfo::package_info() %&gt;% filter(source == "Bioconductor")
+```
+
+```
+##  package              * version date       lib source      
+##  Biobase              * 2.52.0  2021-05-19 [1] Bioconductor
+##  BiocGenerics         * 0.38.0  2021-05-19 [1] Bioconductor
+##  BiocParallel           1.26.0  2021-05-19 [1] Bioconductor
+##  cytomapper           * 1.4.1   2021-05-21 [1] Bioconductor
+##  DelayedArray           0.18.0  2021-05-19 [1] Bioconductor
+##  EBImage              * 4.34.0  2021-05-19 [1] Bioconductor
+##  GenomeInfoDb         * 1.28.0  2021-05-19 [1] Bioconductor
+##  GenomeInfoDbData       1.2.6   2021-05-29 [1] Bioconductor
+##  GenomicRanges        * 1.44.0  2021-05-19 [1] Bioconductor
+##  HDF5Array              1.20.0  2021-05-19 [1] Bioconductor
+##  IRanges              * 2.26.0  2021-05-19 [1] Bioconductor
+##  MatrixGenerics       * 1.4.0   2021-05-19 [1] Bioconductor
+##  rhdf5                  2.36.0  2021-05-19 [1] Bioconductor
+##  rhdf5filters           1.4.0   2021-05-19 [1] Bioconductor
+##  Rhdf5lib               1.14.1  2021-06-08 [1] Bioconductor
+##  S4Vectors            * 0.30.0  2021-05-19 [1] Bioconductor
+##  SingleCellExperiment * 1.14.1  2021-05-21 [1] Bioconductor
+##  SummarizedExperiment * 1.22.0  2021-05-19 [1] Bioconductor
+##  XVector                0.32.0  2021-05-19 [1] Bioconductor
+##  zlibbioc               1.38.0  2021-05-19 [1] Bioconductor
+## 
+## [1] /Users/nils/Library/R/x86_64/4.1/library
+## [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+```
+
+???
+
+Finally, here are the main Bioconductor packages used for the displayed analysis and I'm looking forward to your questions.
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
