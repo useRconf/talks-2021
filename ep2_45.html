@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Abstract</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h2>Abstract</h2>
+
+<p>Students in a biology curriculum at the University of Mons learn to use R, RStudio, git and GitHub in their data science courses. The flipped classroom approach is used since 2018; students discover by themselves new concepts using online course material (<a href="https://wp.sciviews.org">https://wp.sciviews.org</a>) at home. Then they apply the new concepts in the classroom on biological datasets in individual or group projects hosted on GitHub (<a href="https://github.com/BioDataScience-Course">https://github.com/BioDataScience-Course</a>).</p>
+
+<p>{learnr} tutorials are used for a smooth transition between the theory at home and practice in the classroom. Students self-assess their conceptual understanding thanks to these tutorials with or without guided feedback using {gradethis}. {learnitdown} (<a href="https://www.sciviews.org/learnitdown/">https://www.sciviews.org/learnitdown/</a>) is used to manage students identity and to record their activity in a MongoDB database.</p>
+
+<p>Students in the first course are more perseverant when guided feedback is available, translating in a significant increase in the number of attempts per question. In the second course, their perseverance was already high without the guided feedback, which exhibits thus a more limited effect.</p>
+
+<p>Perception of the workload in the tutorials is quantified using a Raw Task load index (NASA-LTX questionnaire). This index could be used as one of the indicators to check the improvement of the tutorials in the future.</p>
+
+<h3>Keywords</h3>
+
+<p>data science class, flipped classroom, learnr, gradethis, learnitdown</p>
+
+<h2>Findings</h2>
+
+<p>Number of regular students, tutorials, questions and recorded events during the last two years are presented in the next table.</p>
+
+<table><thead>
+<tr>
+<th align="left">Course</th>
+<th align="left">Academic year</th>
+<th align="right">Users</th>
+<th align="right">Learnr</th>
+<th align="right">Questions</th>
+<th align="right">Events</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">BioDataScience I</td>
+<td align="left">2019-2020</td>
+<td align="right">44</td>
+<td align="right">22</td>
+<td align="right">280</td>
+<td align="right">57003</td>
+</tr>
+<tr>
+<td align="left">BioDataScience I</td>
+<td align="left">2020-2021</td>
+<td align="right">50</td>
+<td align="right">25</td>
+<td align="right">239</td>
+<td align="right">103389</td>
+</tr>
+<tr>
+<td align="left">BioDataScience II</td>
+<td align="left">2019-2020</td>
+<td align="right">31</td>
+<td align="right">8</td>
+<td align="right">93</td>
+<td align="right">17730</td>
+</tr>
+<tr>
+<td align="left">BioDataScience II</td>
+<td align="left">2020-2021</td>
+<td align="right">37</td>
+<td align="right">13</td>
+<td align="right">146</td>
+<td align="right">37875</td>
+</tr>
+<tr>
+<td align="left">BioDataScience III</td>
+<td align="left">2020-2021</td>
+<td align="right">26</td>
+<td align="right">7</td>
+<td align="right">44</td>
+<td align="right">8621</td>
+</tr>
+</tbody></table>
+
+<p>The learnr tutorials analysed in the present study are available in GitHub:</p>
+
+<ul>
+<li>  BioDataScience1 (<a href="https://github.com/BioDataScience-Course/BioDataScience1">https://github.com/BioDataScience-Course/BioDataScience1</a>)</li>
+<li>  BioDataScience2 (<a href="https://github.com/BioDataScience-Course/BioDataScience2">https://github.com/BioDataScience-Course/BioDataScience2</a>)</li>
+<li>  BioDataScience3 (<a href="https://github.com/BioDataScience-Course/BioDataScience3">https://github.com/BioDataScience-Course/BioDataScience3</a>)</li>
+</ul>
+
+<p>{{<figure src="attempts-1.png" >}}</p>
+
+<p>The comparison with and without guided feedback does not show significant differences in number of attempts per exercise except for the Biodatascience I course (Wilcoxon independent test, W = 33, p-value = 2e-16). Guided feedback induces a behaviour change: students gave up sooner without them.</p>
+
+<h3>Perceived workload</h3>
+
+<p>The NASA-LTX indicator is composed of six questions on a Likert scale to quantify the perceived workload to complete a tutorial [@hart1988development]. The questions concern mental load, physical load, time pressure, expected success, effort required, and frustration experienced during the accomplishment of the task. The average value for the six questions constitutes a Raw Task Load indeX (RTLX) [@byers1989traditional].</p>
+
+<p>{{<figure src="rtlx-1.png" >}}</p>
+
+<p>Despite the increased difficulty of the exercises from one course to the other, RTLX indicator for Biodatascience III is significantly lower than for Biodatascience I (Tukey HSD, p-value = 0.023). We hypothesise that students are more used to the {learnr} tutorials as well as, R coding required to solve the exercises. Consequently, global workload is perceived as lighter. These RTLX measurements are meant to be a reference point for the following years: any future improvements in the tutorials should lead to similar or lower RTLX.</p>
+
+<p>The combination of {learnr}, {gradethis} and {learnitdown} provides a powerful tool to self-assess learning in data science. Students first exposed to {learnr} tutorials also benefit from additional guided feedback with {gradethis}. We propose to use the RTLX index as a mean to assess perceived difficulties and work required to complete these tutorials.</p>
+
+<h3><strong>Availability of supporting source code and requirements</strong></h3>
+
+<ul>
+<li>  Project home pages: <a href="https://www.sciviews.org/learnitdown/">https://www.sciviews.org/learnitdown/</a>, <a href="https://github.com/BioDataScience-Course/BioDataScience1">https://github.com/BioDataScience-Course/BioDataScience1</a>, <a href="https://github.com/BioDataScience-Course/BioDataScience2">https://github.com/BioDataScience-Course/BioDataScience2</a>, <a href="https://github.com/BioDataScience-Course/BioDataScience3">https://github.com/BioDataScience-Course/BioDataScience3</a></li>
+<li>  Operating systems: Platform independent</li>
+<li>  Programming language: R</li>
+<li>  Other requirements: R 4.0.5 or higher, learnr 0.10.1.9008 or higher , gradethis, learnitdown 1.3.0 or higher</li>
+</ul>
+
+<h3>Data availability</h3>
+
+<p>The data will be opened shortly.</p>
+
+<h3>References</h3>
+
+</body>
+
+</html>

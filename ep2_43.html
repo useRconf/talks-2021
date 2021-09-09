@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>r-cubed: Guiding the overwhelmed scientist from random wrangling to Reproducible Research in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Hannah Chatwin, Luke W. Johnston, Helene Bæk Juel, Bettina Lengger, Daniel R. Witte, Malene Revsbech Christiansen, Anders Aasted Isaksen" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="footer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# r-cubed: Guiding the overwhelmed scientist from random wrangling to Reproducible Research in R
+### Hannah Chatwin, Luke W. Johnston, Helene Bæk Juel, Bettina Lengger, Daniel R. Witte, Malene Revsbech Christiansen, Anders Aasted Isaksen
+
+---
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;a href="https://hchats.github.io/user2021/"&gt;hchats.github.io/user2021/&lt;/a&gt;
+&lt;/div&gt; 
+
+
+
+
+
+---
+
+# Motivation
+
+- ↑ Amount of biological data created each year
+
+- ↑ Need for knowledge/skills to manage, process, and analyze data
+
+- Training in modern computational skills has not kept pace, particularly in biomedical research
+
+- Open Science movement: Expectation for methods/analysis to be more reproducible
+
+- Limited awareness of, training in, and incentive to conduct, reproducible research
+
+- **Need: An open educational resource designed to improve skills in R and reproducibility**
+
+---
+
+# Introducing... r-cubed!
+
+&lt;img src="images/r-cubed.jpg" title="Index page welcoming site visitors to r-cubed learning module" alt="Index page welcoming site visitors to r-cubed learning module" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# What is r-cubed?
+
+## .center[[r-cubed.rostools.org](https://r-cubed.rostools.org/)]
+
+- Five sub-modules focused on R and reproducibility
+
+- Three stand-alone lectures relating to collaboration and Open Science
+
+- Designed for in-person settings
+
+---
+
+# Who is it designed for?
+
+- Based on the needs of biomedical researchers
+
+* **Instructors of the workshop:** Teaching reference
+
+* **Others interested in teaching:** Modify to build own lessons
+
+* **Learners:**
+
+  + Reference before, during, and after the workshop
+  
+  + Reference for self-teaching
+
+---
+
+# How is it different from other resources?
+
+- Emphasis on the reproducibility and general workflow
+
+- Cohesion between sub-modules: Later sessions building on skills taught in earlier sessions
+
+- Targets both learners and instructors: Instructors are provided with comprehensive instructions for how to deliver material effectively in workshops (see [Appendix C](https://r-cubed.rostools.org/for-instructors.html))
+
+---
+
+# Instructions for Instructors
+
+&lt;img src="images/instructor-instructions.png" title="'For Instructors' page displaying instructions on how to set up workshop sessions" alt="'For Instructors' page displaying instructions on how to set up workshop sessions" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Content Covered
+
+- **Management of R Projects**: RStudio, packages, data, file paths, troubleshooting
+
+- **Version Control with Git**: Git &amp; RStudio, Git &amp; GitHub, collaborating with others, dealing with merge conflicts
+
+- **Data Management and Wrangling**: Select, rename, filter, arrange, split-apply-combine functions
+
+- **Analytically Reproducible Documents**: R Markdown
+
+- **Data Visualization**: Plots
+
+---
+
+# Instructional Design
+
+1. Participatory live-coding
+
+2. Independent reading
+
+3. Brief exercises
+
+4. Group assignment
+
+---
+
+# Experience of Teaching r-cubed
+
+- Delivered three times previously via a 3-4 day workshop
+
+- Instructors: Recently learned R themselves
+
+- Participants: Total beginners
+
+- Recommended ratio: 1:4-6
+
+- Pre- and post-workshop surveys
+
+- Hosted and sponsored by:
+
+&lt;img src="images/dda-logo.png" title="Logo for the Danish Diabetes Academy" alt="Logo for the Danish Diabetes Academy" width="20%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Workshop Feedback
+
+### Some Challenges
+
+- Version control with Git was a steep learning curve
+
+### Positive Experiences
+
+- Easy to follow
+
+- Good balance between code-alongs, exercises, and reading
+
+- Noticeable skill improvements
+
+---
+
+class: center, middle
+
+# Visit! Use! Share! Thanks for listening
+
+## [r-cubed.rostools.org/](https://r-cubed.rostools.org/)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
